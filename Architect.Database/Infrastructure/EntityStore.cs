@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Architect.Database.Infrastructure
@@ -9,6 +10,8 @@ namespace Architect.Database.Infrastructure
 
         public EntityStore(DatabaseContext context)
         {
+            context.ArgumentNullCheck(nameof(context));
+
             this.context = context;
         }
 

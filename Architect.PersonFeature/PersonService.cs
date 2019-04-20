@@ -12,18 +12,22 @@ namespace Architect.PersonFeature
 {
     public class PersonService : ServiceBase<Database.Entities.Person>, IPersonService
     {
-        public PersonService(Database.DatabaseContext context, PersonStore store) : base(context, store)
+        private const string NOT_FOUND = "person_not_found";
+
+        public PersonService(Database.DatabaseContext context, PersonStore store) 
+            : base(context, store)
         {
         }
 
-        public async Task<IDataResponse<PersonViewModel>> GetAsync(int id, CancellationToken token = default)
+        public async Task<IDataResponse<PersonViewModel>> GetAsync(
+            int id, CancellationToken token = default)
         {
             var entity = await store.GetEntityAsync(id, token);
 
             DataResponse<PersonViewModel> response;
             if (entity == null)
             {
-                response = new DataResponse<PersonViewModel>("person_not_found", HttpStatusCode.NotFound, id);
+                response = new DataResponse<PersonViewModel>(NOT_FOUND, HttpStatusCode.NotFound, id);
             }
             else
             {
@@ -34,19 +38,68 @@ namespace Architect.PersonFeature
             return response;
         }
 
-        public Task<IStatusResponse> CreateAsync(CreatePersonRequest model, CancellationToken token = default)
+        public async Task<IStatusResponse> CreateAsync(
+            CreatePersonRequest model, CancellationToken token = default)
         {
-            throw new NotImplementedException();
+            model.ArgumentNullCheck(nameof(model));
+
+            var entity = model.CreateEntity();
+
+            context.People.Add(entity);
+
+            await context.SaveChangesAsync(token);
+
+            return new StatusResponse(entity.Id);
         }
 
-        public Task<IStatusResponse> UpdateAsync(UpdatePersonRequest model, CancellationToken token = default)
+        public async Task<IStatusResponse> UpdateAsync(
+            UpdatePersonRequest model, CancellationToken token = default)
         {
-            throw new NotImplementedException();
+            model.ArgumentNullCheck(nameof(model));
+
+            var entity = await store.GetEntityAsync(model.Id, token);
+
+            StatusResponse response;
+            if (entity == null)
+            {
+                response = new StatusResponse(NOT_FOUND, HttpStatusCode.NotFound, model.Id);
+            }
+            else
+            {
+                model.UpdateEntity(entity);
+
+                await context.SaveChangesAsync(token);
+
+                response = new StatusResponse(model.Id);
+            }
+
+            return response;
         }
 
-        public Task<IStatusResponse> DeleteAsync(DeletePersonRequest id, CancellationToken token = default)
+        public async Task<IStatusResponse> DeleteAsync(
+            DeletePersonRequest model, CancellationToken token = default)
         {
-            throw new NotImplementedException();
+            model.ArgumentNullCheck(nameof(model));
+
+            var entity = await store.GetEntityAsync(model.Id, token);
+
+            StatusResponse response;
+            if (entity == null)
+            {
+                response = new StatusResponse(NOT_FOUND, HttpStatusCode.NotFound, model.Id);
+            }
+            else
+            {
+                context.People.Remove(entity);
+                context.Addresses.Remove(entity.Address);
+                context.Names.Remove(entity.Name);
+
+                await context.SaveChangesAsync(token);
+
+                response = new StatusResponse(model.Id);
+            }
+
+            return response;
         }
     }
 }

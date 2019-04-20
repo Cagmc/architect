@@ -11,5 +11,10 @@
         {
             return !string.IsNullOrEmpty(self);
         }
+
+        public static bool IsDifferent(this string self, string toCompare)
+        {
+            return self != toCompare;
+        }
     }
 }

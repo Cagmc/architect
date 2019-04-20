@@ -15,6 +15,6 @@ namespace Architect.Database.Infrastructure
         Task<IDataResponse<TViewModel>> GetAsync(int id, CancellationToken token = default);
         Task<IStatusResponse> CreateAsync(TCreate model, CancellationToken token = default);
         Task<IStatusResponse> UpdateAsync(TUpdate model, CancellationToken token = default);
-        Task<IStatusResponse> DeleteAsync(TDelete id, CancellationToken token = default);
+        Task<IStatusResponse> DeleteAsync(TDelete model, CancellationToken token = default);
     }
 }
