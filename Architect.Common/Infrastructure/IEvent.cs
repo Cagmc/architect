@@ -1,6 +1,6 @@
 ﻿namespace Architect.Common.Infrastructure
 {
-    public interface ICommand
+    public interface IEvent
     {
     }
 }

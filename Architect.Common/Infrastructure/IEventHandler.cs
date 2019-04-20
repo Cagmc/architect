@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace Architect.Common.Infrastructure
 {
-    public interface ICommandHandler<T> where T: ICommand
+    public interface ICommandHandler<T> where T: IEvent
     {
         Task HandleAsync(T command, CancellationToken token = default);
     }
