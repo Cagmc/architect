@@ -7,8 +7,8 @@
 
         public ServiceBase(DatabaseContext context, EntityStore<T> store)
         {
-            this.context = context;
-            this.store = store;
+            this.context = context ?? throw new System.NotImplementedException(nameof(context));
+            this.store = store ?? throw new System.NotImplementedException(nameof(store));
         }
     }
 }

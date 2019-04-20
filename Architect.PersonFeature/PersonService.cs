@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -15,9 +16,22 @@ namespace Architect.PersonFeature
         {
         }
 
-        public Task<IDataResponse<PersonViewModel>> GetAsync(int id, CancellationToken token = default)
+        public async Task<IDataResponse<PersonViewModel>> GetAsync(int id, CancellationToken token = default)
         {
-            throw new NotImplementedException();
+            var entity = await store.GetEntityAsync(id, token);
+
+            DataResponse<PersonViewModel> response;
+            if (entity == null)
+            {
+                response = new DataResponse<PersonViewModel>("person_not_found", HttpStatusCode.NotFound, id);
+            }
+            else
+            {
+                var viewModel = new PersonViewModel(entity.Id, entity);
+                response = new DataResponse<PersonViewModel>(viewModel, id);
+            }
+
+            return response;
         }
 
         public Task<IStatusResponse> CreateAsync(CreatePersonRequest model, CancellationToken token = default)
