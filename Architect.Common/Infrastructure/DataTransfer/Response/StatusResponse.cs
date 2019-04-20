@@ -3,7 +3,7 @@ using System.Net;
 
 namespace Architect.Common.Infrastructure.DataTransfer.Response
 {
-    public class StatusResponse
+    public class StatusResponse : IStatusResponse
     {
         public StatusResponse(int? entityId)
         {

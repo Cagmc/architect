@@ -2,6 +2,10 @@
 using System.Threading;
 using System.Threading.Tasks;
 
+using Architect.Common.Infrastructure.DataTransfer.Response;
+using Architect.PersonFeature.DataTransfer.Request;
+using Architect.PersonFeature.DataTransfer.Response;
+
 namespace Architect.PersonFeature
 {
     public class PersonService : IPersonService
@@ -15,22 +19,22 @@ namespace Architect.PersonFeature
             this.store = store;
         }
 
-        public async Task<object> GetAsync(int id, CancellationToken token = default)
+        public Task<IDataResponse<PersonViewModel>> GetAsync(int id, CancellationToken token = default)
         {
             throw new NotImplementedException();
         }
 
-        public async Task<object> CreateAsync(object model, CancellationToken token = default)
+        public Task<IStatusResponse> CreateAsync(CreatePersonRequest model, CancellationToken token = default)
         {
             throw new NotImplementedException();
         }
 
-        public async Task<object> UpdateAsync(object model, CancellationToken token =default)
+        public Task<IStatusResponse> UpdateAsync(UpdatePersonRequest model, CancellationToken token =default)
         {
             throw new NotImplementedException();
         }
 
-        public async Task<object> DeleteAsync(int id, CancellationToken token = default)
+        public Task<IStatusResponse> DeleteAsync(DeletePersonRequest id, CancellationToken token = default)
         {
             throw new NotImplementedException();
         }

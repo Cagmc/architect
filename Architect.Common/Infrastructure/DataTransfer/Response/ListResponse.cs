@@ -3,7 +3,7 @@ using System.Net;
 
 namespace Architect.Common.Infrastructure.DataTransfer.Response
 {
-    public class ListResponse<T> : StatusResponse
+    public class ListResponse<T> : StatusResponse, IListResponse<T>
     {
         public ListResponse(IEnumerable<T> items, int totalCount, int? entityId) : base(entityId)
         {
