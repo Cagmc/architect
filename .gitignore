@@ -328,3 +328,5 @@ ASALocalRun/
 
 # MFractors (Xamarin productivity tool) working folder 
 .mfractor/
+/Architect.Console/PersonDatabaseContextFactory.cs
+/Architect.Console/DatabaseContextFactory.cs
