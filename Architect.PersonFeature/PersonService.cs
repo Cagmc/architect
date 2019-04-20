@@ -3,20 +3,16 @@ using System.Threading;
 using System.Threading.Tasks;
 
 using Architect.Common.Infrastructure.DataTransfer.Response;
+using Architect.Database.Infrastructure;
 using Architect.PersonFeature.DataTransfer.Request;
 using Architect.PersonFeature.DataTransfer.Response;
 
 namespace Architect.PersonFeature
 {
-    public class PersonService : IPersonService
+    public class PersonService : ServiceBase<Database.Entities.Person>, IPersonService
     {
-        protected readonly Database.DatabaseContext context;
-        protected readonly PersonStore store;
-
-        public PersonService(Database.DatabaseContext context, PersonStore store)
+        public PersonService(Database.DatabaseContext context, PersonStore store) : base(context, store)
         {
-            this.context = context;
-            this.store = store;
         }
 
         public Task<IDataResponse<PersonViewModel>> GetAsync(int id, CancellationToken token = default)
@@ -29,7 +25,7 @@ namespace Architect.PersonFeature
             throw new NotImplementedException();
         }
 
-        public Task<IStatusResponse> UpdateAsync(UpdatePersonRequest model, CancellationToken token =default)
+        public Task<IStatusResponse> UpdateAsync(UpdatePersonRequest model, CancellationToken token = default)
         {
             throw new NotImplementedException();
         }
