@@ -1,4 +1,5 @@
-﻿using Architect.Database.Infrastructure;
+﻿using Architect.Common.Enums;
+using Architect.Database.Infrastructure;
 
 using Microsoft.EntityFrameworkCore;
 
@@ -6,7 +7,7 @@ namespace Architect.Database.Entities
 {
     public class Address : EntityBase
     {
-        public Enums.Country Country { get; set; }
+        public Country Country { get; set; }
         public string City { get; set; }
         public int ZipCode { get; set; }
         public string Street { get; set; }
@@ -27,6 +28,8 @@ namespace Architect.Database.Entities
                 .HasForeignKey<Person>(x => x.AddressId).OnDelete(deleteBehavior);
             entity.HasOne(x => x.Company).WithOne(x => x.Address)
                 .HasForeignKey<Company>(x => x.AddressId).OnDelete(deleteBehavior);
+
+            entity.HasQueryFilter(x => !x.IsDeleted);
 
             base.OnModelCreating(modelBuilder);
         }

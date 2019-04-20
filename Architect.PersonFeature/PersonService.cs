@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Architect.PersonFeature
 {
@@ -11,6 +13,26 @@ namespace Architect.PersonFeature
         {
             this.context = context;
             this.store = store;
+        }
+
+        public async Task<object> GetAsync(int id, CancellationToken token = default)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<object> CreateAsync(object model, CancellationToken token = default)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<object> UpdateAsync(object model, CancellationToken token =default)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<object> DeleteAsync(int id, CancellationToken token = default)
+        {
+            throw new NotImplementedException();
         }
     }
 }

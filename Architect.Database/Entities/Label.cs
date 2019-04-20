@@ -22,6 +22,8 @@ namespace Architect.Database.Entities
             entity.HasMany(x => x.TranslatedLabels).WithOne(x => x.Label)
                 .HasForeignKey(x => x.LabelId).OnDelete(deleteBehavior);
 
+            entity.HasQueryFilter(x => !x.IsDeleted);
+
             base.OnModelCreating(modelBuilder);
         }
     }

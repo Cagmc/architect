@@ -1,5 +1,6 @@
 ﻿using System;
 
+using Architect.Common.Enums;
 using Architect.Database.Infrastructure;
 
 namespace Architect.PersonFeature.Entities
@@ -10,8 +11,8 @@ namespace Architect.PersonFeature.Entities
         public string Address { get; set; }
         public int Height { get; set; }
         public int Weight { get; set; }
-        public Database.Enums.Color HairColor { get; set; }
-        public Database.Enums.Color EyeColor { get; set; }
+        public Color HairColor { get; set; }
+        public Color EyeColor { get; set; }
         public DateTime BirthDate { get; set; }
     }
 }

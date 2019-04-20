@@ -12,7 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Update="Microsoft.NETCore.App" Version="2.2.4" />
+    <ProjectReference Include="..\Architect.Common\Architect.Common.csproj" />
   </ItemGroup>
 
 </Project>

@@ -23,6 +23,8 @@ namespace Architect.Database.Entities
             entity.HasOne(x => x.Person).WithOne(x => x.Name)
                 .HasForeignKey<Person>(x => x.NameId).OnDelete(deleteBehavior);
 
+            entity.HasQueryFilter(x => !x.IsDeleted);
+
             base.OnModelCreating(modelBuilder);
         }
     }

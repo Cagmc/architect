@@ -17,12 +17,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Architect.Common\Architect.Common.csproj" />
     <ProjectReference Include="..\Architect.Database\Architect.Database.csproj" />
     <ProjectReference Include="..\Architect.PersonFeature\Architect.PersonFeature.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Update="Microsoft.NETCore.App" Version="2.2.4" />
   </ItemGroup>
 
 </Project>

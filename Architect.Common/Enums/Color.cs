@@ -1,11 +1,11 @@
-﻿namespace Architect.Database.Enums
+﻿namespace Architect.Common.Enums
 {
     public enum Color
     {
         Unknown,
-        Brown,
         Black,
         Blonde,
+        Brown,
         Green,
         Yellow
     }

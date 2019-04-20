@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
+using Architect.Common.Enums;
 using Architect.Database.Infrastructure;
 
 using Microsoft.EntityFrameworkCore;
@@ -11,8 +12,8 @@ namespace Architect.Database.Entities
     {
         public int Height { get; set; }
         public int Weight { get; set; }
-        public Enums.Color HairColor { get; set; }
-        public Enums.Color EyeColor { get; set; }
+        public Color HairColor { get; set; }
+        public Color EyeColor { get; set; }
         public DateTime BirthDate { get; set; }
 
         public int NameId { get; set; }
@@ -37,6 +38,8 @@ namespace Architect.Database.Entities
                 .HasForeignKey(x => x.ChairmanId).OnDelete(deleteBehavior);
             entity.HasMany(x => x.Employments).WithOne(x => x.Employee)
                 .HasForeignKey(x => x.EmployeeId).OnDelete(deleteBehavior);
+
+            entity.HasQueryFilter(x => !x.IsDeleted);
 
             base.OnModelCreating(modelBuilder);
         }

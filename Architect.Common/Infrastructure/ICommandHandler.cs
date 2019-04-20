@@ -1,7 +1,7 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 
-namespace Architect.Database.Infrastructure
+namespace Architect.Common.Infrastructure
 {
     public interface ICommandHandler<T> where T: ICommand
     {

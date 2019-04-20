@@ -33,6 +33,8 @@ namespace Architect.Database.Entities
             entity.HasOne(x => x.Job).WithMany(x => x.Employments)
                 .HasForeignKey(x => x.JobId).OnDelete(deleteBehavior);
 
+            entity.HasQueryFilter(x => !x.IsDeleted);
+
             base.OnModelCreating(modelBuilder);
         }
     }
