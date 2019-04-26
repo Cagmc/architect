@@ -12,6 +12,7 @@ namespace Architect.Database.Entities
         public int ZipCode { get; set; }
         public string Street { get; set; }
         public string StreetNumber { get; set; }
+        public string FullAddress { get { return $"{City} {Street} {StreetNumber}"; } }
 
         public Person Person { get; set; }
         public Company Company { get; set; }
@@ -23,6 +24,7 @@ namespace Architect.Database.Entities
             entity.Property(x => x.City).IsRequired();
             entity.Property(x => x.Street).IsRequired();
             entity.Property(x => x.StreetNumber).IsRequired();
+            entity.Ignore(x => x.FullAddress);
 
             entity.HasOne(x => x.Person).WithOne(x => x.Address)
                 .HasForeignKey<Person>(x => x.AddressId).OnDelete(deleteBehavior);

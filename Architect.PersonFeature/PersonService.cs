@@ -3,6 +3,7 @@ using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 
+using Architect.Common.Infrastructure;
 using Architect.Common.Infrastructure.DataTransfer.Response;
 using Architect.Database.Infrastructure;
 using Architect.PersonFeature.DataTransfer.Request;
@@ -14,8 +15,8 @@ namespace Architect.PersonFeature
     {
         private const string NOT_FOUND = "person_not_found";
 
-        public PersonService(Database.DatabaseContext context, PersonStore store) 
-            : base(context, store)
+        public PersonService(Database.DatabaseContext context, PersonStore store, IEventDispatcher eventDispatcher)
+            : base(context, store, eventDispatcher)
         {
         }
 
@@ -45,9 +46,15 @@ namespace Architect.PersonFeature
 
             var entity = model.CreateEntity();
 
-            context.People.Add(entity);
+            using (var tran = await context.Database.BeginTransactionAsync(token))
+            {
+                context.People.Add(entity);
 
-            await context.SaveChangesAsync(token);
+                await context.SaveChangesAsync(token);
+                await eventDispatcher.DispatchAsync(new Events.CreateEvent(entity));
+
+                tran.Commit();
+            }
 
             return new StatusResponse(entity.Id);
         }
@@ -68,7 +75,13 @@ namespace Architect.PersonFeature
             {
                 model.UpdateEntity(entity);
 
-                await context.SaveChangesAsync(token);
+                using (var tran = await context.Database.BeginTransactionAsync(token))
+                {
+                    await context.SaveChangesAsync(token);
+                    await eventDispatcher.DispatchAsync(new Events.UpdateEvent(entity));
+
+                    tran.Commit();
+                }
 
                 response = new StatusResponse(model.Id);
             }
