@@ -7,6 +7,11 @@ namespace Architect.PersonFeature.Entities
 {
     public class PersonAggregate : AggregateEntityBase
     {
+        private PersonAggregate()
+        {
+
+        }
+
         public PersonAggregate(Database.Entities.Person person)
         {
             person.ArgumentNullCheck(nameof(person));

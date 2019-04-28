@@ -330,3 +330,4 @@ ASALocalRun/
 .mfractor/
 /Architect.Console/PersonDatabaseContextFactory.cs
 /Architect.Console/DatabaseContextFactory.cs
+/Architect.WebApp/appsettings.Development.json

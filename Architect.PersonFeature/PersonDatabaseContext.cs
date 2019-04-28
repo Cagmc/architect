@@ -4,7 +4,7 @@ namespace Architect.PersonFeature
 {
     public class PersonDatabaseContext : DbContext
     {
-        public PersonDatabaseContext(DbContextOptions options) : base(options)
+        public PersonDatabaseContext(DbContextOptions<PersonDatabaseContext> options) : base(options)
         {
 
         }

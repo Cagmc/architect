@@ -9,7 +9,7 @@ using Architect.Database.Infrastructure;
 using Architect.PersonFeature.DataTransfer.Request;
 using Architect.PersonFeature.DataTransfer.Response;
 
-namespace Architect.PersonFeature
+namespace Architect.PersonFeature.Services
 {
     public class PersonService : ServiceBase<Database.Entities.Person>, IPersonService
     {
@@ -20,7 +20,7 @@ namespace Architect.PersonFeature
         {
         }
 
-        public async Task<IDataResponse<PersonViewModel>> GetAsync(
+        public virtual async Task<IDataResponse<PersonViewModel>> GetAsync(
             int id, CancellationToken token = default)
         {
             var entity = await store.GetEntityAsync(id, token);
@@ -39,7 +39,7 @@ namespace Architect.PersonFeature
             return response;
         }
 
-        public async Task<IStatusResponse> CreateAsync(
+        public virtual async Task<IStatusResponse> CreateAsync(
             CreatePersonRequest model, CancellationToken token = default)
         {
             model.ArgumentNullCheck(nameof(model));
@@ -59,7 +59,7 @@ namespace Architect.PersonFeature
             return new StatusResponse(entity.Id);
         }
 
-        public async Task<IStatusResponse> UpdateAsync(
+        public virtual async Task<IStatusResponse> UpdateAsync(
             UpdatePersonRequest model, CancellationToken token = default)
         {
             model.ArgumentNullCheck(nameof(model));
@@ -89,7 +89,7 @@ namespace Architect.PersonFeature
             return response;
         }
 
-        public async Task<IStatusResponse> DeleteAsync(
+        public virtual async Task<IStatusResponse> DeleteAsync(
             DeletePersonRequest model, CancellationToken token = default)
         {
             model.ArgumentNullCheck(nameof(model));
