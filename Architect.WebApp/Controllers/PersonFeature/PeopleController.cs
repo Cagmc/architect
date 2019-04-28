@@ -63,6 +63,16 @@ namespace Architect.WebApp.Controllers.PersonFeature
             return GenerateResponse(result);
         }
 
+        [HttpPatch("name")]
+        [ProducesResponseType(typeof(int), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> PatchName([Required]ChangeNameRequest model, CancellationToken token)
+        {
+            var result = await service.ChangeNameAsync(model, token);
+
+            return GenerateResponse(result);
+        }
+
         [HttpDelete]
         [ProducesResponseType(typeof(int), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]

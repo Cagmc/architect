@@ -12,5 +12,8 @@ namespace Architect.PersonFeature.Services
     {
         Task<IStatusResponse> ChangeAddressAsync(
             ChangeAddressRequest model, CancellationToken token = default);
+
+        Task<IStatusResponse> ChangeNameAsync(
+            ChangeNameRequest model, CancellationToken token = default);
     }
 }

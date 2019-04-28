@@ -43,6 +43,29 @@ namespace Architect.PersonFeature.Services
             return response;
         }
 
+        public virtual async Task<IStatusResponse> ChangeNameAsync(
+            ChangeNameRequest model, CancellationToken token = default)
+        {
+            model.ArgumentNullCheck(nameof(model));
+
+            var entity = await store.GetEntityAsync(model.Id, token);
+
+            StatusResponse response;
+            if (entity == null)
+            {
+                response = new StatusResponse(NOT_FOUND, HttpStatusCode.NotFound, model.Id);
+            }
+            else
+            {
+                model.Name.UpdateEntity(entity.Name);
+                await context.SaveChangesAsync(token);
+
+                response = new StatusResponse(entity.Id);
+            }
+
+            return response;
+        }
+
         public virtual async Task<IStatusResponse> CreateAsync(
             CreatePersonRequest model, CancellationToken token = default)
         {
