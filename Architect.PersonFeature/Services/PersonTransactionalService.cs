@@ -1,7 +1,7 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
-using System.Transactions;
 
+using Architect.Common.Infrastructure;
 using Architect.Common.Infrastructure.DataTransfer.Response;
 using Architect.PersonFeature.DataTransfer.Request;
 using Architect.PersonFeature.DataTransfer.Response;
@@ -20,7 +20,7 @@ namespace Architect.PersonFeature.Services
         public virtual async Task<IStatusResponse> ChangeAddressAsync(
             ChangeAddressRequest model, CancellationToken token = default)
         {
-            using (var scope = CreateTransaction())
+            using (var scope = TransactionFactory.CreateTransaction())
             {
                 var result = await service.ChangeAddressAsync(model, token)
                     .ConfigureAwait(false);
@@ -33,7 +33,7 @@ namespace Architect.PersonFeature.Services
         public virtual async Task<IStatusResponse> ChangeNameAsync(
             ChangeNameRequest model, CancellationToken token = default)
         {
-            using (var scope = CreateTransaction())
+            using (var scope = TransactionFactory.CreateTransaction())
             {
                 var result = await service.ChangeNameAsync(model, token)
                     .ConfigureAwait(false);
@@ -46,7 +46,7 @@ namespace Architect.PersonFeature.Services
         public virtual async Task<IStatusResponse> CreateAsync(
             CreatePersonRequest model, CancellationToken token = default)
         {
-            using (var scope = CreateTransaction())
+            using (var scope = TransactionFactory.CreateTransaction())
             {
                 var result = await service.CreateAsync(model, token);
                 scope.Complete();
@@ -58,7 +58,7 @@ namespace Architect.PersonFeature.Services
         public virtual async Task<IStatusResponse> DeleteAsync(
             DeletePersonRequest model, CancellationToken token = default)
         {
-            using (var scope = CreateTransaction())
+            using (var scope = TransactionFactory.CreateTransaction())
             {
                 var result = await service.DeleteAsync(model, token);
                 scope.Complete();
@@ -78,20 +78,13 @@ namespace Architect.PersonFeature.Services
         public virtual async Task<IStatusResponse> UpdateAsync(
             UpdatePersonRequest model, CancellationToken token = default)
         {
-            using (var scope = CreateTransaction())
+            using (var scope = TransactionFactory.CreateTransaction())
             {
                 var result = await service.UpdateAsync(model, token);
                 scope.Complete();
 
                 return result;
             }
-        }
-
-        protected virtual TransactionScope CreateTransaction()
-        {
-            return new TransactionScope(TransactionScopeOption.Required,
-                new TransactionOptions { IsolationLevel = IsolationLevel.ReadCommitted },
-                TransactionScopeAsyncFlowOption.Enabled);
         }
     }
 }
