@@ -1,6 +1,8 @@
-﻿using System.Threading;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Threading;
 using System.Threading.Tasks;
 
+using Architect.Common.Infrastructure.DataTransfer.Response;
 using Architect.PersonFeature.DataTransfer.Request;
 using Architect.PersonFeature.DataTransfer.Response;
 using Architect.PersonFeature.Services;
@@ -23,86 +25,82 @@ namespace Architect.WebApp.Controllers.PersonFeature
         }
 
         [HttpGet("{id}")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(PersonViewModel), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<PersonViewModel>> Get(int id, CancellationToken token)
+        public async Task<IActionResult> Get([Required]int id, CancellationToken token)
         {
             var result = await service.GetAsync(id, token);
 
-            if (result.IsSuccess)
-            {
-                return Ok(result.Data);
-            }
-            else
-            {
-                return StatusCode((int)result.StatusCode, result.ErrorMessage);
-            }
+            return GenerateResponse(result);
         }
 
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
-        public async Task<IActionResult> Post(CreatePersonRequest model, CancellationToken token)
+        public async Task<IActionResult> Post([Required]CreatePersonRequest model, CancellationToken token)
         {
             var result = await service.CreateAsync(model, token);
 
-            if (result.IsSuccess)
-            {
-                return CreatedAtAction(nameof(Get), new { id = result.EntityId });
-            }
-            else
-            {
-                return StatusCode((int)result.StatusCode, result.ErrorMessage);
-            }
+            return GenerateResponse(result);
         }
 
         [HttpPut]
-        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(int), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<int>> Put(UpdatePersonRequest model, CancellationToken token)
+        public async Task<IActionResult> Put([Required]UpdatePersonRequest model, CancellationToken token)
         {
             var result = await service.UpdateAsync(model, token);
 
-            if (result.IsSuccess)
-            {
-                return Ok(result.EntityId);
-            }
-            else
-            {
-                return StatusCode((int)result.StatusCode, result.ErrorMessage);
-            }
+            return GenerateResponse(result);
         }
 
         [HttpPatch("address")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(int), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<int>> Patch(ChangeAddressRequest model, CancellationToken token)
+        public async Task<IActionResult> PatchAddress([Required]ChangeAddressRequest model, CancellationToken token)
         {
             var result = await service.ChangeAddressAsync(model, token);
 
-            if (result.IsSuccess)
-            {
-                return Ok(result.EntityId);
-            }
-            else
-            {
-                return StatusCode((int)result.StatusCode, result.ErrorMessage);
-            }
+            return GenerateResponse(result);
         }
 
         [HttpDelete]
-        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(int), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<int>> Delete(DeletePersonRequest model, CancellationToken token)
+        public async Task<IActionResult> Delete([Required]DeletePersonRequest model, CancellationToken token)
         {
             var result = await service.DeleteAsync(model, token);
 
-            if (result.IsSuccess)
+            return GenerateResponse(result);
+        }
+
+        protected virtual IActionResult GenerateResponse(IStatusResponse response, bool isCreated = false)
+        {
+            if (response.IsSuccess)
             {
-                return Ok(result.EntityId);
+                if (isCreated)
+                {
+                    return CreatedAtAction(nameof(Get), new { id = response.EntityId });
+                }
+                else
+                {
+                    return Ok(response.EntityId);
+                }
             }
             else
             {
-                return StatusCode((int)result.StatusCode, result.ErrorMessage);
+                return StatusCode((int)response.StatusCode, response.ErrorMessage);
+            }
+        }
+
+        protected virtual IActionResult GenerateResponse<T>(IDataResponse<T> response)
+        {
+            if (response.IsSuccess)
+            {
+                return Ok(response.Data);
+            }
+            else
+            {
+                return StatusCode((int)response.StatusCode, response.ErrorMessage);
             }
         }
     }
