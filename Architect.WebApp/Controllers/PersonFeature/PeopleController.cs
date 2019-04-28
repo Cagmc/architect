@@ -1,7 +1,6 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 
-using Architect.Common.Infrastructure.DataTransfer.Response;
 using Architect.PersonFeature.DataTransfer.Request;
 using Architect.PersonFeature.DataTransfer.Response;
 using Architect.PersonFeature.Services;
@@ -24,15 +23,15 @@ namespace Architect.WebApp.Controllers.PersonFeature
         }
 
         [HttpGet("{id}")]
-        [ProducesResponseType(typeof(IDataResponse<PersonViewModel>), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> Get(int id, CancellationToken token)
+        public async Task<ActionResult<PersonViewModel>> Get(int id, CancellationToken token)
         {
             var result = await service.GetAsync(id, token);
 
             if (result.IsSuccess)
             {
-                return Ok(result);
+                return Ok(result.Data);
             }
             else
             {
@@ -58,7 +57,8 @@ namespace Architect.WebApp.Controllers.PersonFeature
 
         [HttpPut]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<IActionResult> Put(UpdatePersonRequest model, CancellationToken token)
+        [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<int>> Put(UpdatePersonRequest model, CancellationToken token)
         {
             var result = await service.UpdateAsync(model, token);
 
@@ -72,9 +72,27 @@ namespace Architect.WebApp.Controllers.PersonFeature
             }
         }
 
+        [HttpPatch("address")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<int>> Patch(ChangeAddressRequest model, CancellationToken token)
+        {
+            var result = await service.ChangeAddressAsync(model, token);
+
+            if (result.IsSuccess)
+            {
+                return Ok(result.EntityId);
+            }
+            else
+            {
+                return StatusCode((int)result.StatusCode, result.ErrorMessage);
+            }
+        }
+
         [HttpDelete]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<IActionResult> Delete(DeletePersonRequest model, CancellationToken token)
+        [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<int>> Delete(DeletePersonRequest model, CancellationToken token)
         {
             var result = await service.DeleteAsync(model, token);
 

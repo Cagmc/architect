@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 using Architect.Common.Enums;
 
@@ -31,7 +32,13 @@ namespace Architect.PersonFeature.DataTransfer.Request
 
         public virtual void UpdateEntity(Database.Entities.Address entity)
         {
+            entity.ArgumentNullCheck(nameof(entity));
 
+            Country = entity.Country;
+            City = entity.City;
+            ZipCode = entity.ZipCode;
+            Street = entity.Street;
+            StreetNumber = entity.StreetNumber;
         }
     }
 }

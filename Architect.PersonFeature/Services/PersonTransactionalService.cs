@@ -17,6 +17,19 @@ namespace Architect.PersonFeature.Services
             this.service = service;
         }
 
+        public virtual async Task<IStatusResponse> ChangeAddressAsync(
+            ChangeAddressRequest model, CancellationToken token = default)
+        {
+            using (var scope = new TransactionScope(TransactionScopeOption.Required,
+                new TransactionOptions { IsolationLevel = IsolationLevel.ReadCommitted }))
+            {
+                var result = await service.ChangeAddressAsync(model, token);
+                scope.Complete();
+
+                return result;
+            }
+        }
+
         public virtual async Task<IStatusResponse> CreateAsync(
             CreatePersonRequest model, CancellationToken token = default)
         {

@@ -20,47 +20,8 @@ namespace Architect.PersonFeature.Services
         {
         }
 
-        public virtual async Task<IDataResponse<PersonViewModel>> GetAsync(
-            int id, CancellationToken token = default)
-        {
-            var entity = await store.GetEntityAsync(id, token);
-
-            DataResponse<PersonViewModel> response;
-            if (entity == null)
-            {
-                response = new DataResponse<PersonViewModel>(NOT_FOUND, HttpStatusCode.NotFound, id);
-            }
-            else
-            {
-                var viewModel = new PersonViewModel(entity.Id, entity);
-                response = new DataResponse<PersonViewModel>(viewModel, id);
-            }
-
-            return response;
-        }
-
-        public virtual async Task<IStatusResponse> CreateAsync(
-            CreatePersonRequest model, CancellationToken token = default)
-        {
-            model.ArgumentNullCheck(nameof(model));
-
-            var entity = model.CreateEntity();
-
-            using (var tran = await context.Database.BeginTransactionAsync(token))
-            {
-                context.People.Add(entity);
-
-                await context.SaveChangesAsync(token);
-                await eventDispatcher.DispatchAsync(new Events.CreateEvent(entity));
-
-                tran.Commit();
-            }
-
-            return new StatusResponse(entity.Id);
-        }
-
-        public virtual async Task<IStatusResponse> UpdateAsync(
-            UpdatePersonRequest model, CancellationToken token = default)
+        public virtual async Task<IStatusResponse> ChangeAddressAsync(
+            ChangeAddressRequest model, CancellationToken token = default)
         {
             model.ArgumentNullCheck(nameof(model));
 
@@ -73,20 +34,28 @@ namespace Architect.PersonFeature.Services
             }
             else
             {
-                model.UpdateEntity(entity);
+                model.Address.UpdateEntity(entity.Address);
+                await context.SaveChangesAsync(token);
 
-                using (var tran = await context.Database.BeginTransactionAsync(token))
-                {
-                    await context.SaveChangesAsync(token);
-                    await eventDispatcher.DispatchAsync(new Events.UpdateEvent(entity));
-
-                    tran.Commit();
-                }
-
-                response = new StatusResponse(model.Id);
+                response = new StatusResponse(entity.Id);
             }
 
             return response;
+        }
+
+        public virtual async Task<IStatusResponse> CreateAsync(
+            CreatePersonRequest model, CancellationToken token = default)
+        {
+            model.ArgumentNullCheck(nameof(model));
+
+            var entity = model.CreateEntity();
+
+            context.People.Add(entity);
+
+            await context.SaveChangesAsync(token);
+            await eventDispatcher.DispatchAsync(new Events.CreateEvent(entity));
+
+            return new StatusResponse(entity.Id);
         }
 
         public virtual async Task<IStatusResponse> DeleteAsync(
@@ -108,6 +77,50 @@ namespace Architect.PersonFeature.Services
                 context.Names.Remove(entity.Name);
 
                 await context.SaveChangesAsync(token);
+
+                response = new StatusResponse(model.Id);
+            }
+
+            return response;
+        }
+
+        public virtual async Task<IDataResponse<PersonViewModel>> GetAsync(
+            int id, CancellationToken token = default)
+        {
+            var entity = await store.GetEntityAsync(id, token);
+
+            DataResponse<PersonViewModel> response;
+            if (entity == null)
+            {
+                response = new DataResponse<PersonViewModel>(NOT_FOUND, HttpStatusCode.NotFound, id);
+            }
+            else
+            {
+                var viewModel = new PersonViewModel(entity.Id, entity);
+                response = new DataResponse<PersonViewModel>(viewModel, id);
+            }
+
+            return response;
+        }
+
+        public virtual async Task<IStatusResponse> UpdateAsync(
+            UpdatePersonRequest model, CancellationToken token = default)
+        {
+            model.ArgumentNullCheck(nameof(model));
+
+            var entity = await store.GetEntityAsync(model.Id, token);
+
+            StatusResponse response;
+            if (entity == null)
+            {
+                response = new StatusResponse(NOT_FOUND, HttpStatusCode.NotFound, model.Id);
+            }
+            else
+            {
+                model.UpdateEntity(entity);
+
+                await context.SaveChangesAsync(token);
+                await eventDispatcher.DispatchAsync(new Events.UpdateEvent(entity));
 
                 response = new StatusResponse(model.Id);
             }
