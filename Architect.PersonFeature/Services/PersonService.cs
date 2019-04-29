@@ -100,6 +100,7 @@ namespace Architect.PersonFeature.Services
                 context.Names.Remove(entity.Name);
 
                 await context.SaveChangesAsync(token);
+                await eventDispatcher.DispatchAsync(new Events.DeleteEvent(entity));
 
                 response = new StatusResponse(model.Id);
             }

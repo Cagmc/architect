@@ -7,8 +7,15 @@ namespace Architect.Common.Infrastructure
 {
     public class EventDispatcher : IEventDispatcher
     {
+        protected readonly IServiceProvider provider;
+
+        public EventDispatcher(IServiceProvider provider)
+        {
+            this.provider = provider;
+        }
+
         public virtual async Task DispatchAsync<T>(T domainEvent, CancellationToken token = default)
-            where T: IEvent
+            where T : IEvent
         {
             var genericHanlerType = typeof(IEventHandler<T>);
 
@@ -17,9 +24,10 @@ namespace Architect.Common.Infrastructure
                 .Where(p => genericHanlerType.IsAssignableFrom(p))
                 .Where(p => !p.IsAbstract);
 
+
             foreach (var item in types)
             {
-                var instance = (IEventHandler<T>)Activator.CreateInstance(item);
+                var instance = CreateInstance<IEventHandler<T>>(item);
                 await instance.HandleAsync(domainEvent, token);
             }
         }
@@ -36,11 +44,30 @@ namespace Architect.Common.Infrastructure
 
             foreach (var item in types)
             {
-                var instance = (IEventHandler<T>)Activator.CreateInstance(item);
+                var instance = CreateInstance<IEventHandler<T>>(item);
 #pragma warning disable
                 instance.HandleAsync(domainEvent);
 #pragma warning enable
             }
+        }
+
+        protected virtual TResult CreateInstance<TResult>(Type type)
+            where TResult : class
+        {
+            var constructor = type.GetConstructors()[0];
+
+            if (constructor != null)
+            {
+                object[] args = constructor
+                    .GetParameters()
+                    .Select(o => o.ParameterType)
+                    .Select(o => provider.GetService(o))
+                    .ToArray();
+
+                return Activator.CreateInstance(type, args) as TResult;
+            }
+
+            return null;
         }
     }
 }

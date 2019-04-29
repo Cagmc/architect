@@ -1,6 +1,5 @@
 ﻿using Architect.Common.Infrastructure;
 using Architect.Database;
-using Architect.PersonFeature;
 
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -26,11 +25,9 @@ namespace Architect.WebApp
         {
             services.AddDbContext<DatabaseContext>(options => 
                 options.UseSqlServer(Configuration.GetConnectionString("ApplicationDatabase")));
-            services.AddDbContext<PersonDatabaseContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("PersonFeatureDatabase")));
 
             services.AddPeopleFeature();
-            services.AddSingleton<IEventDispatcher, EventDispatcher>();
+            services.AddScoped<IEventDispatcher, EventDispatcher>();
 
             services.AddApiVersioning(o => {
                 o.ApiVersionReader = new HeaderApiVersionReader("x-api-version");
@@ -43,7 +40,7 @@ namespace Architect.WebApp
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, 
-            DatabaseContext context, PersonDatabaseContext pContext)
+            DatabaseContext context)
         {
             if (env.IsDevelopment())
             {
@@ -56,7 +53,6 @@ namespace Architect.WebApp
             }
 
             context.Database.Migrate();
-            pContext.Database.Migrate();
 
             app.ConfigureSwagger();
 

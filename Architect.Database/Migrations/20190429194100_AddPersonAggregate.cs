@@ -2,18 +2,15 @@
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace Architect.PersonFeature.Migrations
+namespace Architect.Database.Migrations
 {
-    public partial class Init : Migration
+    public partial class AddPersonAggregate : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.EnsureSchema(
-                name: "per");
-
             migrationBuilder.CreateTable(
-                name: "People",
-                schema: "per",
+                name: "PersonAggregates",
+                schema: "arc",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
@@ -30,15 +27,15 @@ namespace Architect.PersonFeature.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_People", x => x.Id);
+                    table.PrimaryKey("PK_PersonAggregates", x => x.Id);
                 });
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "People",
-                schema: "per");
+                name: "PersonAggregates",
+                schema: "arc");
         }
     }
 }

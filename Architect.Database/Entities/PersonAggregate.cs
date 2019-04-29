@@ -3,7 +3,7 @@
 using Architect.Common.Enums;
 using Architect.Database.Infrastructure;
 
-namespace Architect.PersonFeature.Entities
+namespace Architect.Database.Entities
 {
     public class PersonAggregate : AggregateEntityBase
     {

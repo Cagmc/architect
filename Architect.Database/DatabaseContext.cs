@@ -22,6 +22,7 @@ namespace Architect.Database
         public DbSet<Entities.Language> Languages { get; set; }
         public DbSet<Entities.Name> Names { get; set; }
         public DbSet<Entities.Person> People { get; set; }
+        public DbSet<Entities.PersonAggregate> PersonAggregates { get; set; }
         public DbSet<Entities.Profession> Professions { get; set; }
         public DbSet<Entities.TranslatedLabel> TranslatedLabels { get; set; }
 
