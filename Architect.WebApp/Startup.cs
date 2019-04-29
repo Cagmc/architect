@@ -56,6 +56,7 @@ namespace Architect.WebApp
 
             app.ConfigureSwagger();
 
+            app.UseMiddleware<Middleware.IdentifierValidationMiddleware>();
             app.UseHttpsRedirection();
             app.UseMvc();
         }
