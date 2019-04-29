@@ -5,13 +5,14 @@ using System.Threading.Tasks;
 
 using Architect.Common.Infrastructure;
 using Architect.Common.Infrastructure.DataTransfer.Response;
+using Architect.Database.Entities;
 using Architect.Database.Infrastructure;
 using Architect.PersonFeature.DataTransfer.Request;
 using Architect.PersonFeature.DataTransfer.Response;
 
 namespace Architect.PersonFeature.Services
 {
-    public class PersonService : ServiceBase<Database.Entities.Person>, IPersonService
+    public class PersonService : ServiceBase<Person, PersonAggregate>, IPersonService
     {
         private const string NOT_FOUND = "person_not_found";
 

@@ -4,13 +4,16 @@ using Architect.Common.Infrastructure;
 
 namespace Architect.Database.Infrastructure
 {
-    public abstract class ServiceBase<T> where T: EntityBase
+    public abstract class ServiceBase<TEntity, TAggregate>
+        where TEntity : EntityBase
+        where TAggregate : AggregateEntityBase
     {
         protected readonly IEventDispatcher eventDispatcher;
         protected readonly DatabaseContext context;
-        protected readonly EntityStore<T> store;
+        protected readonly EntityStore<TEntity, TAggregate> store;
 
-        public ServiceBase(DatabaseContext context, EntityStore<T> store, IEventDispatcher eventDispatcher)
+        public ServiceBase(DatabaseContext context, 
+            EntityStore<TEntity, TAggregate> store, IEventDispatcher eventDispatcher)
         {
             this.eventDispatcher = eventDispatcher.ArgumentNullCheck(nameof(eventDispatcher));
             this.context = context.ArgumentNullCheck(nameof(context));

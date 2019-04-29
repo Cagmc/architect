@@ -103,7 +103,7 @@ namespace Architect.Database
                         entity.SetModified();
                         break;
                     case EntityState.Added:
-                        entity.SetDeleted();
+                        entity.SetAdded();
                         break;
                     default:
                         break;

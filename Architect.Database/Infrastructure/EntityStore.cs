@@ -4,7 +4,9 @@ using System.Threading.Tasks;
 
 namespace Architect.Database.Infrastructure
 {
-    public abstract class EntityStore<T> where T: EntityBase
+    public abstract class EntityStore<TEntity, TAggregate>
+        where TEntity : EntityBase
+        where TAggregate : AggregateEntityBase
     {
         protected readonly DatabaseContext context;
 
@@ -15,6 +17,8 @@ namespace Architect.Database.Infrastructure
             this.context = context;
         }
 
-        public abstract Task<T> GetEntityAsync(int id, CancellationToken token = default);
+        public abstract Task<TEntity> GetEntityAsync(int id, CancellationToken token = default);
+
+        public abstract Task<TAggregate> GetAggregateAsync(int id, CancellationToken token = default);
     }
 }

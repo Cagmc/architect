@@ -11,7 +11,7 @@ namespace Microsoft.Extensions.DependencyInjection
         {
             services.AddScoped<IPersonService, PersonService>();
             services.AddScoped<IPersonTransactionalService, PersonTransactionalService>();
-            services.AddScoped<EntityStore<Person>, PersonStore>();
+            services.AddScoped<EntityStore<Person, PersonAggregate>, PersonStore>();
             services.AddScoped<PersonStore, PersonStore>();
 
             return services;

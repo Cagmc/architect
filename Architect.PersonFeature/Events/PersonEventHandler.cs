@@ -1,10 +1,10 @@
-﻿using System;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 
 using Architect.Common.Infrastructure;
 using Architect.Database;
 using Architect.Database.Entities;
+using Architect.Database.Infrastructure;
 
 namespace Architect.PersonFeature.Events
 {
@@ -14,29 +14,46 @@ namespace Architect.PersonFeature.Events
         IEventHandler<DeleteEvent>
     {
         private readonly DatabaseContext context;
+        private readonly EntityStore<Person, PersonAggregate> store;
 
-        public PersonEventHandler(DatabaseContext context)
+        public PersonEventHandler(DatabaseContext context, EntityStore<Person, PersonAggregate> store)
         {
             this.context = context;
+            this.store = store;
         }
 
-        public async Task HandleAsync(CreateEvent command, CancellationToken token = default)
+        public virtual async Task HandleAsync(CreateEvent data, CancellationToken token = default)
         {
-            var aggregate = new PersonAggregate(command.Person);
-
-            context.PersonAggregates.Add(aggregate);
+            Add(data.Person);
 
             await context.SaveChangesAsync(token);
         }
 
-        public Task HandleAsync(DeleteEvent command, CancellationToken token = default)
+        public virtual async Task HandleAsync(DeleteEvent data, CancellationToken token = default)
         {
-            throw new NotImplementedException();
+            await RemoveAsync(data.Person.Id, token);
+
+            await context.SaveChangesAsync(token);
         }
 
-        public Task HandleAsync(UpdateEvent command, CancellationToken token = default)
+        public virtual async Task HandleAsync(UpdateEvent data, CancellationToken token = default)
         {
-            throw new NotImplementedException();
+            await RemoveAsync(data.Person.Id, token);
+            Add(data.Person);
+
+            await context.SaveChangesAsync(token);
+        }
+
+        protected virtual void Add(Person person)
+        {
+            var aggregate = new PersonAggregate(person);
+            context.PersonAggregates.Add(aggregate);
+        }
+
+        protected virtual async Task RemoveAsync(int id, CancellationToken token = default)
+        {
+            var original = await store.GetAggregateAsync(id, token);
+            context.PersonAggregates.Remove(original);
         }
     }
 }

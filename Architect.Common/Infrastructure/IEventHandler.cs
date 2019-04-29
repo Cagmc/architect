@@ -5,6 +5,6 @@ namespace Architect.Common.Infrastructure
 {
     public interface IEventHandler<T> where T: IEvent
     {
-        Task HandleAsync(T command, CancellationToken token = default);
+        Task HandleAsync(T data, CancellationToken token = default);
     }
 }
