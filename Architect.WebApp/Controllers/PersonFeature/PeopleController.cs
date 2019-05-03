@@ -1,13 +1,11 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
-using System.Net;
+﻿using System.ComponentModel.DataAnnotations;
 using System.Threading;
 using System.Threading.Tasks;
 
-using Architect.Common.Infrastructure.DataTransfer.Response;
 using Architect.PersonFeature.DataTransfer.Request;
 using Architect.PersonFeature.DataTransfer.Response;
 using Architect.PersonFeature.Services;
+using Architect.WebApp.Infrastructure;
 
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -17,7 +15,7 @@ namespace Architect.WebApp.Controllers.PersonFeature
     [Route("api/[controller]")]
     [ApiVersion("1.0")]
     [ApiController]
-    public class PeopleController : ControllerBase
+    public class PeopleController : ApiController
     {
         private readonly IPersonTransactionalService service;
 
@@ -88,49 +86,6 @@ namespace Architect.WebApp.Controllers.PersonFeature
             var result = await service.DeleteAsync(model, token);
 
             return GenerateResponse(result);
-        }
-
-        protected virtual IActionResult GenerateResponse(IStatusResponse response, bool isCreated = false)
-        {
-            if (response.IsSuccess)
-            {
-                if (isCreated)
-                {
-                    return CreatedAtAction(nameof(Get), new { id = response.EntityId });
-                }
-                else
-                {
-                    return Ok(response.EntityId);
-                }
-            }
-            else
-            {
-                return GenerateProblemResult(response.StatusCode, response.ErrorMessage);
-            }
-        }
-
-        protected virtual IActionResult GenerateResponse<T>(IDataResponse<T> response)
-        {
-            if (response.IsSuccess)
-            {
-                return Ok(response.Data);
-            }
-            else
-            {
-                return GenerateProblemResult(response.StatusCode, response.ErrorMessage);
-            }
-        }
-
-        protected virtual IActionResult GenerateProblemResult(HttpStatusCode statusCode, string message)
-        {
-            var details = new ProblemDetails
-            {
-                Detail = message,
-                Status = (int)statusCode,
-                Title = Enum.GetName(typeof(HttpStatusCode), statusCode)
-            };
-
-            return StatusCode(details.Status.Value, details);
         }
     }
 }
