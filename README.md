@@ -3,6 +3,8 @@
 
 ## TODO
 
+* QueryExtensions
+* Pagination
 * CQRS
 * Logging: Serilog
 * Create another feature
