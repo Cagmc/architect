@@ -8,7 +8,6 @@ namespace Architect.PersonFeature.DataTransfer.Request
         {
 
         }
-
         public AddressRequest Address { get; set; }
     }
 }

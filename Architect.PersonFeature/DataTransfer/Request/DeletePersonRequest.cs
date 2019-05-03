@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Architect.Common.Infrastructure.DataTransfer.Request;
+﻿using Architect.Common.Infrastructure.DataTransfer.Request;
 
 namespace Architect.PersonFeature.DataTransfer.Request
 {
@@ -9,6 +6,7 @@ namespace Architect.PersonFeature.DataTransfer.Request
     {
         public DeletePersonRequest(int id) : base(id)
         {
+
         }
     }
 }

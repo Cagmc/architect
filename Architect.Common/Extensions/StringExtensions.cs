@@ -16,5 +16,10 @@
         {
             return self != toCompare;
         }
+
+        public static string Format(this string self, params object[] parameters)
+        {
+            return string.Format(self, parameters);
+        }
     }
 }

@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
+using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -26,7 +28,7 @@ namespace Architect.WebApp.Controllers.PersonFeature
 
         [HttpGet("{id}")]
         [ProducesResponseType(typeof(PersonViewModel), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
         public async Task<IActionResult> Get([Required]int id, CancellationToken token)
         {
             var result = await service.GetAsync(id, token);
@@ -36,6 +38,7 @@ namespace Architect.WebApp.Controllers.PersonFeature
 
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Post([Required]CreatePersonRequest model, CancellationToken token)
         {
             var result = await service.CreateAsync(model, token);
@@ -45,7 +48,8 @@ namespace Architect.WebApp.Controllers.PersonFeature
 
         [HttpPut]
         [ProducesResponseType(typeof(int), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
         public async Task<IActionResult> Put([Required]UpdatePersonRequest model, CancellationToken token)
         {
             var result = await service.UpdateAsync(model, token);
@@ -55,7 +59,8 @@ namespace Architect.WebApp.Controllers.PersonFeature
 
         [HttpPatch("address")]
         [ProducesResponseType(typeof(int), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
         public async Task<IActionResult> PatchAddress([Required]ChangeAddressRequest model, CancellationToken token)
         {
             var result = await service.ChangeAddressAsync(model, token);
@@ -65,7 +70,8 @@ namespace Architect.WebApp.Controllers.PersonFeature
 
         [HttpPatch("name")]
         [ProducesResponseType(typeof(int), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
         public async Task<IActionResult> PatchName([Required]ChangeNameRequest model, CancellationToken token)
         {
             var result = await service.ChangeNameAsync(model, token);
@@ -75,7 +81,8 @@ namespace Architect.WebApp.Controllers.PersonFeature
 
         [HttpDelete]
         [ProducesResponseType(typeof(int), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
         public async Task<IActionResult> Delete([Required]DeletePersonRequest model, CancellationToken token)
         {
             var result = await service.DeleteAsync(model, token);
@@ -98,7 +105,7 @@ namespace Architect.WebApp.Controllers.PersonFeature
             }
             else
             {
-                return StatusCode((int)response.StatusCode, response.ErrorMessage);
+                return GenerateProblemResult(response.StatusCode, response.ErrorMessage);
             }
         }
 
@@ -110,8 +117,20 @@ namespace Architect.WebApp.Controllers.PersonFeature
             }
             else
             {
-                return StatusCode((int)response.StatusCode, response.ErrorMessage);
+                return GenerateProblemResult(response.StatusCode, response.ErrorMessage);
             }
+        }
+
+        protected virtual IActionResult GenerateProblemResult(HttpStatusCode statusCode, string message)
+        {
+            var details = new ProblemDetails
+            {
+                Detail = message,
+                Status = (int)statusCode,
+                Title = Enum.GetName(typeof(HttpStatusCode), statusCode)
+            };
+
+            return StatusCode(details.Status.Value, details);
         }
     }
 }

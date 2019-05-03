@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -14,8 +13,6 @@ namespace Architect.PersonFeature.Services
 {
     public class PersonService : ServiceBase<Person, PersonAggregate>, IPersonService
     {
-        private const string NOT_FOUND = "person_not_found";
-
         public PersonService(Database.DatabaseContext context, PersonStore store, IEventDispatcher eventDispatcher)
             : base(context, store, eventDispatcher)
         {
@@ -28,10 +25,10 @@ namespace Architect.PersonFeature.Services
 
             var entity = await store.GetEntityAsync(model.Id, token);
 
-            StatusResponse response;
+            IStatusResponse response;
             if (entity == null)
             {
-                response = new StatusResponse(NOT_FOUND, HttpStatusCode.NotFound, model.Id);
+                response = NotFoundStatusResponse(model.Id);
             }
             else
             {
@@ -51,10 +48,10 @@ namespace Architect.PersonFeature.Services
 
             var entity = await store.GetEntityAsync(model.Id, token);
 
-            StatusResponse response;
+            IStatusResponse response;
             if (entity == null)
             {
-                response = new StatusResponse(NOT_FOUND, HttpStatusCode.NotFound, model.Id);
+                response = NotFoundStatusResponse(model.Id);
             }
             else
             {
@@ -89,10 +86,10 @@ namespace Architect.PersonFeature.Services
 
             var entity = await store.GetEntityAsync(model.Id, token);
 
-            StatusResponse response;
+            IStatusResponse response;
             if (entity == null)
             {
-                response = new StatusResponse(NOT_FOUND, HttpStatusCode.NotFound, model.Id);
+                response = NotFoundStatusResponse(model.Id);
             }
             else
             {
@@ -114,10 +111,10 @@ namespace Architect.PersonFeature.Services
         {
             var entity = await store.GetEntityAsync(id, token);
 
-            DataResponse<PersonViewModel> response;
+            IDataResponse<PersonViewModel> response;
             if (entity == null)
             {
-                response = new DataResponse<PersonViewModel>(NOT_FOUND, HttpStatusCode.NotFound, id);
+                response = NotFoundDataResponse<PersonViewModel>(id);
             }
             else
             {
@@ -135,10 +132,10 @@ namespace Architect.PersonFeature.Services
 
             var entity = await store.GetEntityAsync(model.Id, token);
 
-            StatusResponse response;
+            IStatusResponse response;
             if (entity == null)
             {
-                response = new StatusResponse(NOT_FOUND, HttpStatusCode.NotFound, model.Id);
+                response = NotFoundStatusResponse(model.Id);
             }
             else
             {

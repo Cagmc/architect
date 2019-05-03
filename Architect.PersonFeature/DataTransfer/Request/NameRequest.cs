@@ -1,9 +1,11 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
+using Architect.Common.Infrastructure.DataTransfer.Request;
+
 namespace Architect.PersonFeature.DataTransfer.Request
 {
-    public class NameRequest
+    public class NameRequest : RequestBase
     {
         public string Title { get; set; }
         [Required]

@@ -10,6 +10,7 @@ namespace Architect.PersonFeature.DataTransfer.Request
     {
         public UpdatePersonRequest(int id) : base(id)
         {
+
         }
 
         [Required]

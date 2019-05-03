@@ -2,14 +2,18 @@
 using System.ComponentModel.DataAnnotations;
 
 using Architect.Common.Enums;
+using Architect.Common.Infrastructure.DataTransfer.Request;
 
 namespace Architect.PersonFeature.DataTransfer.Request
 {
-    public class AddressRequest
+    public class AddressRequest : RequestBase
     {
         public Country Country { get; set; }
         [Required]
         public string City { get; set; }
+        [MinLength(4)]
+        [MaxLength(4)]
+        [Range(1000,9999)]
         public int ZipCode { get; set; }
         [Required]
         public string Street { get; set; }
