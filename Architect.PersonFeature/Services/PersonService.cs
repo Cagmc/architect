@@ -8,6 +8,7 @@ using Architect.Database.Entities;
 using Architect.Database.Infrastructure;
 using Architect.PersonFeature.DataTransfer.Request;
 using Architect.PersonFeature.DataTransfer.Response;
+using Architect.PersonFeature.Queries;
 
 namespace Architect.PersonFeature.Services
 {

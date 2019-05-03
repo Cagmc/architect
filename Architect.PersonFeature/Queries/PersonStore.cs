@@ -6,7 +6,7 @@ using Architect.Database.Entities;
 
 using Microsoft.EntityFrameworkCore;
 
-namespace Architect.PersonFeature
+namespace Architect.PersonFeature.Queries
 {
     public class PersonStore : Database.Infrastructure.EntityStore<Person, PersonAggregate>
     {

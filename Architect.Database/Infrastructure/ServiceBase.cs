@@ -60,7 +60,7 @@ namespace Architect.Database.Infrastructure
         protected virtual IStatusResponse ConflictStatusResponse(int id, object data)
         {
             return CreateStatusResponse<TEntity>(
-                notFoundTemplate, HttpStatusCode.Conflict, id, data);
+                conflictTemplate, HttpStatusCode.Conflict, id, data);
         }
 
 #pragma warning disable
@@ -69,13 +69,13 @@ namespace Architect.Database.Infrastructure
             where TEntity : EntityBase
         {
             return CreateStatusResponse<TEntity>(
-                notFoundTemplate, HttpStatusCode.Conflict, id, data);
+                conflictTemplate, HttpStatusCode.Conflict, id, data);
         }
 
         protected virtual IDataResponse<TResponse> ConflictDataResponse<TResponse>(int id, object data)
         {
             return CreateDataStatusResponse<TEntity, TResponse>(
-                notFoundTemplate, HttpStatusCode.Conflict, id, data);
+                conflictTemplate, HttpStatusCode.Conflict, id, data);
         }
 
 #pragma warning disable
@@ -84,7 +84,7 @@ namespace Architect.Database.Infrastructure
             where TEntity : class
         {
             return CreateDataStatusResponse<TEntity, TResponse>(
-                notFoundTemplate, HttpStatusCode.Conflict, id, data);
+                conflictTemplate, HttpStatusCode.Conflict, id, data);
         }
 
         #endregion

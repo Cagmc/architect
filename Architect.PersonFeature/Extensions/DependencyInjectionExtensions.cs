@@ -1,6 +1,6 @@
 ﻿using Architect.Database.Entities;
 using Architect.Database.Infrastructure;
-using Architect.PersonFeature;
+using Architect.PersonFeature.Queries;
 using Architect.PersonFeature.Services;
 
 namespace Microsoft.Extensions.DependencyInjection
