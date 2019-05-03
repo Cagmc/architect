@@ -3,13 +3,16 @@
 
 ## TODO
 
-* Validation: https://docs.microsoft.com/en-us/aspnet/core/mvc/models/validation?view=aspnetcore-2.2#rerun-validation
+* CQRS
 * Logging: Serilog
 * Create another feature
 * Authentication, authorization
-* Response handling
 * Custom headers
 
 ## DONE
 
+* Middleware
+* Transaction
 * Make EventDispatcher work
+* Response handling
+* Validation: https://docs.microsoft.com/en-us/aspnet/core/mvc/models/validation?view=aspnetcore-2.2#rerun-validation
