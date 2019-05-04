@@ -1,6 +1,6 @@
 ﻿using System;
 
-using Architect.Database.Infrastructure;
+using Architect.Common.Infrastructure;
 
 using Microsoft.EntityFrameworkCore;
 

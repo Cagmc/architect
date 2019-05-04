@@ -6,5 +6,6 @@ namespace Architect.Common.Infrastructure.DataTransfer.Response
     {
         IEnumerable<T> Items { get; set; }
         int TotalCount { get; set; }
+        int TotalPages { get; set; }
     }
 }

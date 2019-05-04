@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-using Architect.Database.Infrastructure;
+using Architect.Common.Infrastructure;
 
 using Microsoft.EntityFrameworkCore;
 

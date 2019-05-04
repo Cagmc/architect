@@ -12,7 +12,7 @@ namespace Architect.Database.Entities
 
         }
 
-        public PersonAggregate(Database.Entities.Person person)
+        public PersonAggregate(Person person)
         {
             person.ArgumentNullCheck(nameof(person));
 

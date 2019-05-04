@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 
 using Architect.Common.Enums;
-using Architect.Database.Infrastructure;
+using Architect.Common.Infrastructure;
 
 using Microsoft.EntityFrameworkCore;
 

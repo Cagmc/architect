@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 using Microsoft.EntityFrameworkCore;
 
-namespace Architect.Database.Infrastructure
+namespace Architect.Common.Infrastructure
 {
     public abstract class EntityBase
     {

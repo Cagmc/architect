@@ -2,6 +2,8 @@
 using System.Threading;
 using System.Threading.Tasks;
 
+using Architect.Common.Infrastructure;
+
 namespace Architect.Database.Infrastructure
 {
     public abstract class EntityStore<TEntity, TAggregate>

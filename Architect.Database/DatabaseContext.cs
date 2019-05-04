@@ -3,6 +3,8 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
+using Architect.Common.Infrastructure;
+
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 
@@ -37,7 +39,7 @@ namespace Architect.Database
 
         private void OnModelCreatingEntities(ModelBuilder modelBuilder)
         {
-            var type = typeof(Infrastructure.EntityBase);
+            var type = typeof(EntityBase);
             var types = AppDomain.CurrentDomain.GetAssemblies()
                 .SelectMany(s => s.GetTypes())
                 .Where(p => type.IsAssignableFrom(p))
@@ -45,7 +47,7 @@ namespace Architect.Database
 
             foreach (var item in types)
             {
-                var instance = (Infrastructure.EntityBase)Activator.CreateInstance(item);
+                var instance = (EntityBase)Activator.CreateInstance(item);
                 instance.OnModelCreating(modelBuilder);
             }
         }
@@ -91,7 +93,7 @@ namespace Architect.Database
 
         private void SetMetadata(EntityEntry entityEntry)
         {
-            if (entityEntry.Entity is Infrastructure.EntityBase entity)
+            if (entityEntry.Entity is EntityBase entity)
             {
                 switch (entityEntry.State)
                 {

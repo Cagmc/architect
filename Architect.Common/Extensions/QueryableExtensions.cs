@@ -5,23 +5,21 @@ using System.Linq.Expressions;
 using Architect.Common.Enums;
 using Architect.Common.Infrastructure.DataTransfer.Request;
 
-using Microsoft.EntityFrameworkCore;
-
-namespace Architect.Common.Extensions
+namespace Microsoft.EntityFrameworkCore
 {
     public static class QueryableExtensions
     {
-        public static IQueryable<T> Paginate<T>(this IQueryable<T> query, PaginationFilter paginationFilter)
+        public static IQueryable<T> Paginate<T>(this IQueryable<T> query, PaginationFilter filter)
         {
-            if (paginationFilter.OrderByColumn.IsNotNullOrEmpty())
+            if (filter.OrderByColumn.IsNotNullOrEmpty())
             {
-                query = query.OrderBy(paginationFilter.OrderByColumn, paginationFilter.OrderByDirection);
+                query = query.OrderBy(filter.OrderByColumn, filter.OrderByDirection);
             }
 
-            if (paginationFilter.PageSize.HasValue && paginationFilter.PageSize.Value > 0)
+            if (filter.PageSize.HasValue && filter.PageSize.Value > 0)
             {
-                var skip = (paginationFilter.Page.Value - 1) * paginationFilter.PageSize.Value;
-                var take = paginationFilter.PageSize.Value;
+                var skip = (filter.Page.Value - 1) * filter.PageSize.Value;
+                var take = filter.PageSize.Value;
 
                 query = query.Skip(skip).Take(take);
             }
