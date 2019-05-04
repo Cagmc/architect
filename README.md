@@ -3,9 +3,9 @@
 
 ## TODO
 
-* QueryExtensions
-* Pagination
-* CQRS
+* add more queries
+* 2 kind of view models: list item and detailed
+* CQRS (create readonly context for aggregates)
 * Logging: Serilog
 * Create another feature
 * Authentication, authorization
@@ -13,6 +13,8 @@
 
 ## DONE
 
+* QueryExtensions
+* Pagination
 * Middleware
 * Transaction
 * Make EventDispatcher work
