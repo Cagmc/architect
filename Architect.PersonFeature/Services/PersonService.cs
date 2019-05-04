@@ -110,6 +110,7 @@ namespace Architect.PersonFeature.Services
         public virtual async Task<IDataResponse<PersonViewModel>> GetAsync(
             int id, CancellationToken token = default)
         {
+            id.ArgumentOutOfRangeCheck(nameof(id));
             var entity = await store.GetEntityAsync(id, token);
 
             IDataResponse<PersonViewModel> response;

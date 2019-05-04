@@ -2,6 +2,16 @@
 {
     public static class IntegerExtensions
     {
+        public static int ArgumentOutOfRangeCheck(this int self, string name)
+        {
+            if (self < 1)
+            {
+                throw new ArgumentOutOfRangeException(name);
+            }
+
+            return self;
+        }
+
         public static int CountPages(this int self, int? pageSize)
         {
             int count = 1;

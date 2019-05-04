@@ -18,11 +18,13 @@ namespace Architect.Database
         }
 
         public DbSet<Entities.Address> Addresses { get; set; }
+        public DbSet<Entities.AddressAggregate> AddressAggregates { get; set; }
         public DbSet<Entities.Company> Companies { get; set; }
         public DbSet<Entities.Employment> Employments { get; set; }
         public DbSet<Entities.Label> Labels { get; set; }
         public DbSet<Entities.Language> Languages { get; set; }
         public DbSet<Entities.Name> Names { get; set; }
+        public DbSet<Entities.NameAggregate> NameAggregates { get; set; }
         public DbSet<Entities.Person> People { get; set; }
         public DbSet<Entities.PersonAggregate> PersonAggregates { get; set; }
         public DbSet<Entities.Profession> Professions { get; set; }

@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -25,8 +26,8 @@ namespace Architect.WebApp.Controllers.PersonFeature
 
         public PeopleController(IPersonTransactionalService service, IPersonQueries queries)
         {
-            this.service = service;
-            this.queries = queries;
+            this.service = service.ArgumentNullCheck(nameof(service));
+            this.queries = queries.ArgumentNullCheck(nameof(queries));
         }
 
         [HttpGet("{id}")]

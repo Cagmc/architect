@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -20,13 +19,18 @@ namespace Architect.PersonFeature.Queries
 
         public PersonQueries(Database.DatabaseContext context, EntityStore<Person, PersonAggregate> store)
         {
-            this.context = context;
-            this.store = store;
+            this.context = context.ArgumentNullCheck(nameof(context));
+            this.store = store.ArgumentNullCheck(nameof(store));
         }
 
         public virtual async Task<IDataResponse<PersonAggregate>> GetAsync(
             int id, CancellationToken token = default)
         {
+            if (id < 1)
+            {
+                throw new ArgumentOutOfRangeException(nameof(id));
+            }
+
             var item = await store.GetAggregateAsync(id, token);
 
             var response = item == null
@@ -39,6 +43,8 @@ namespace Architect.PersonFeature.Queries
         public virtual async Task<IListResponse<PersonAggregate>> GetAsync(
             PeopleFilter filter, CancellationToken token = default)
         {
+            filter.ArgumentNullCheck(nameof(filter));
+
             var query = context.PersonAggregates
                 .StringFilter(filter.Filter, x => x.Name, x => x.Address);
 

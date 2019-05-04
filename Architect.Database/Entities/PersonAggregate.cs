@@ -15,9 +15,9 @@ namespace Architect.Database.Entities
         public PersonAggregate(Person person)
         {
             person.ArgumentNullCheck(nameof(person));
+            person.Id.ArgumentOutOfRangeCheck(nameof(person.Id));
 
             AggregateRootId = person.Id;
-            CreatedDate = DateTime.UtcNow;
             Name = person.Name.FullName;
             Address = person.Address.FullAddress;
             Height = person.Height;
