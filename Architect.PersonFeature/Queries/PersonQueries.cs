@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Architect.PersonFeature.Queries
 {
-    public class PersonQueries : ResponsiveServiceBase<Person>
+    public class PersonQueries : ResponsiveServiceBase<Person>, IPersonQueries
     {
         private readonly Database.DatabaseContext context;
         private readonly EntityStore<Person, PersonAggregate> store;
@@ -43,7 +43,8 @@ namespace Architect.PersonFeature.Queries
             var totalCount = await query.CountAsync(token);
             var items = await query.Paginate(filter).ToListAsync(token);
 
-            return new ListResponse<PersonAggregate>(items, totalCount, totalCount.CountPages(filter.PageSize));
+            return new ListResponse<PersonAggregate>(items, totalCount, 
+                filter.Page ?? 1, totalCount.CountPages(filter.PageSize));
         }
     }
 }

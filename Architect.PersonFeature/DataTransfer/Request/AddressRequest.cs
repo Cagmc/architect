@@ -11,8 +11,6 @@ namespace Architect.PersonFeature.DataTransfer.Request
         public Country Country { get; set; }
         [Required]
         public string City { get; set; }
-        [MinLength(4)]
-        [MaxLength(4)]
         [Range(1000,9999)]
         public int ZipCode { get; set; }
         [Required]

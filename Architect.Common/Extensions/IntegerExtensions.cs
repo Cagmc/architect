@@ -7,7 +7,15 @@
             int count = 1;
             if (pageSize.HasValue)
             {
-                count = (self / pageSize.Value) + 1;
+                if (self % pageSize.Value == 0)
+                {
+                    count = (self / pageSize.Value);
+
+                }
+                else
+                {
+                    count = (self / pageSize.Value) + 1;
+                }
             }
 
             return count;

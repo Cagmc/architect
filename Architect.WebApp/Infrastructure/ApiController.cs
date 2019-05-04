@@ -9,6 +9,11 @@ namespace Architect.WebApp.Infrastructure
 {
     public abstract class ApiController : ControllerBase
     {
+        protected virtual IActionResult GenerateResponse<TItems>(IListResponse<TItems> response)
+        {
+            return Ok(response);
+        }
+
         protected virtual IActionResult GenerateResponse(IStatusResponse response, bool isCreated = false)
         {
             if (response.IsSuccess)
