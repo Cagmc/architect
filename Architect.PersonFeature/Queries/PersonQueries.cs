@@ -1,12 +1,13 @@
 ﻿using System;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
 using Architect.Common.Infrastructure;
-using Architect.Common.Infrastructure.DataTransfer.Request;
 using Architect.Common.Infrastructure.DataTransfer.Response;
 using Architect.Database.Entities;
 using Architect.Database.Infrastructure;
+using Architect.PersonFeature.DataTransfer.Request;
 
 using Microsoft.EntityFrameworkCore;
 
@@ -28,22 +29,23 @@ namespace Architect.PersonFeature.Queries
         {
             var item = await store.GetAggregateAsync(id, token);
 
-            var response = item == null 
-                ? base.NotFoundDataResponse<PersonAggregate>(id) 
+            var response = item == null
+                ? base.NotFoundDataResponse<PersonAggregate>(id)
                 : new DataResponse<PersonAggregate>(item, id);
 
             return response;
         }
 
         public virtual async Task<IListResponse<PersonAggregate>> GetAsync(
-            PaginationFilter filter, CancellationToken token = default)
+            PeopleFilter filter, CancellationToken token = default)
         {
-            var query = context.PersonAggregates;
+            var query = context.PersonAggregates
+                .StringFilter(filter.Filter, x => x.Name, x => x.Address);
 
             var totalCount = await query.CountAsync(token);
             var items = await query.Paginate(filter).ToListAsync(token);
 
-            return new ListResponse<PersonAggregate>(items, totalCount, 
+            return new ListResponse<PersonAggregate>(items, totalCount,
                 filter.Page ?? 1, totalCount.CountPages(filter.PageSize));
         }
     }
