@@ -21,5 +21,15 @@
         {
             return string.Format(self, parameters);
         }
+
+        public static string SqlLike(this string self)
+        {
+            if (self == null)
+            {
+                throw new ArgumentNullException();
+            }
+
+            return $"%{self}%";
+        }
     }
 }
