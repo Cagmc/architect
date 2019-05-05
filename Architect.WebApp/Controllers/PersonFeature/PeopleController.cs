@@ -10,6 +10,7 @@ using Architect.WebApp.Infrastructure;
 
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 
 namespace Architect.WebApp.Controllers.PersonFeature
 {
@@ -20,9 +21,10 @@ namespace Architect.WebApp.Controllers.PersonFeature
     {
         private readonly IPersonTransactionalService service;
 
-        public PeopleController(IPersonTransactionalService service)
+        public PeopleController(IPersonTransactionalService service, ILogger<PeopleController> logger)
         {
             this.service = service.ArgumentNullCheck(nameof(service));
+            logger.LogDebug("Test log");
         }
 
         [HttpGet("{id}")]
