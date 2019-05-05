@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 using Architect.Common.Infrastructure;
 using Architect.Database;
 using Architect.Database.Entities;
-using Architect.Database.Infrastructure;
 
 namespace Architect.PersonFeature.Events
 {
@@ -14,9 +13,9 @@ namespace Architect.PersonFeature.Events
         IEventHandler<DeleteEvent>
     {
         private readonly DatabaseContext context;
-        private readonly EntityStore<Person, PersonAggregate> store;
+        private readonly EntityStore<DatabaseContext, Person, PersonAggregate> store;
 
-        public PersonEventHandler(DatabaseContext context, EntityStore<Person, PersonAggregate> store)
+        public PersonEventHandler(DatabaseContext context, EntityStore<DatabaseContext, Person, PersonAggregate> store)
         {
             this.context = context;
             this.store = store;

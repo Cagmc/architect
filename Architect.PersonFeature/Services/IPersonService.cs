@@ -1,8 +1,8 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 
+using Architect.Common.Infrastructure;
 using Architect.Common.Infrastructure.DataTransfer.Response;
-using Architect.Database.Infrastructure;
 using Architect.PersonFeature.DataTransfer.Request;
 using Architect.PersonFeature.DataTransfer.Response;
 

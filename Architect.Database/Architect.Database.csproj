@@ -15,4 +15,8 @@
     <ProjectReference Include="..\Architect.Common\Architect.Common.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Infrastructure\" />
+  </ItemGroup>
+
 </Project>

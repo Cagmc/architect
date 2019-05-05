@@ -2,17 +2,18 @@
 using System.Threading;
 using System.Threading.Tasks;
 
-using Architect.Common.Infrastructure;
+using Microsoft.EntityFrameworkCore;
 
-namespace Architect.Database.Infrastructure
+namespace Architect.Common.Infrastructure
 {
-    public abstract class EntityStore<TEntity, TAggregate>
+    public abstract class EntityStore<TDbContext, TEntity, TAggregate>
+        where TDbContext : DbContext
         where TEntity : EntityBase
         where TAggregate : AggregateEntityBase
     {
-        protected readonly DatabaseContext context;
+        protected readonly TDbContext context;
 
-        public EntityStore(DatabaseContext context)
+        public EntityStore(TDbContext context)
         {
             context.ArgumentNullCheck(nameof(context));
 

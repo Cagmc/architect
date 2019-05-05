@@ -1,5 +1,6 @@
-﻿using Architect.Database.Entities;
-using Architect.Database.Infrastructure;
+﻿using Architect.Common.Infrastructure;
+using Architect.Database;
+using Architect.Database.Entities;
 using Architect.PersonFeature.Queries;
 using Architect.PersonFeature.Services;
 
@@ -12,7 +13,7 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddScoped<IPersonService, PersonService>();
             services.AddScoped<IPersonTransactionalService, PersonTransactionalService>();
             services.AddScoped<IPersonQueries, PersonQueries>();
-            services.AddScoped<EntityStore<Person, PersonAggregate>, PersonStore>();
+            services.AddScoped<EntityStore<DatabaseContext, Person, PersonAggregate>, PersonStore>();
             services.AddScoped<PersonStore, PersonStore>();
 
             return services;

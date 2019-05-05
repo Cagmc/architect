@@ -2,15 +2,17 @@
 using System.Threading;
 using System.Threading.Tasks;
 
+using Architect.Common.Infrastructure;
+using Architect.Database;
 using Architect.Database.Entities;
 
 using Microsoft.EntityFrameworkCore;
 
 namespace Architect.PersonFeature.Queries
 {
-    public class PersonStore : Database.Infrastructure.EntityStore<Person, PersonAggregate>
+    public class PersonStore : EntityStore<DatabaseContext, Person, PersonAggregate>
     {
-        public PersonStore(Database.DatabaseContext context) : base(context)
+        public PersonStore(DatabaseContext context) : base(context)
         {
 
         }

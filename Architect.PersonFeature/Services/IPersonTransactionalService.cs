@@ -1,4 +1,4 @@
-﻿using Architect.Database.Infrastructure;
+﻿using Architect.Common.Infrastructure;
 using Architect.PersonFeature.DataTransfer.Request;
 using Architect.PersonFeature.DataTransfer.Response;
 

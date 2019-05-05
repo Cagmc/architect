@@ -4,17 +4,17 @@ using System.Threading.Tasks;
 
 using Architect.Common.Infrastructure;
 using Architect.Common.Infrastructure.DataTransfer.Response;
+using Architect.Database;
 using Architect.Database.Entities;
-using Architect.Database.Infrastructure;
 using Architect.PersonFeature.DataTransfer.Request;
 using Architect.PersonFeature.DataTransfer.Response;
 using Architect.PersonFeature.Queries;
 
 namespace Architect.PersonFeature.Services
 {
-    public class PersonService : ServiceBase<Person, PersonAggregate>, IPersonService
+    public class PersonService : ServiceBase<DatabaseContext, Person, PersonAggregate>, IPersonService
     {
-        public PersonService(Database.DatabaseContext context, PersonStore store, IEventDispatcher eventDispatcher)
+        public PersonService(DatabaseContext context, PersonStore store, IEventDispatcher eventDispatcher)
             : base(context, store, eventDispatcher)
         {
         }

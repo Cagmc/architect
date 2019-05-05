@@ -4,10 +4,10 @@ using System.Threading.Tasks;
 using Architect.Common.Infrastructure.DataTransfer.Request;
 using Architect.Common.Infrastructure.DataTransfer.Response;
 
-namespace Architect.Database.Infrastructure
+namespace Architect.Common.Infrastructure
 {
     public interface IService<TViewModel, TCreate, TUpdate, TDelete>
-        where TViewModel: ViewModelBase
+        where TViewModel : ViewModelBase
         where TCreate : CreateRequestBase
         where TUpdate : UpdateRequestBase
         where TDelete : DeleteRequestBase
