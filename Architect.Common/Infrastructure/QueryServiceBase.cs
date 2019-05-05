@@ -25,11 +25,11 @@ namespace Architect.Common.Infrastructure
         {
             id.ArgumentOutOfRangeCheck(nameof(id));
 
-            var query = context.Query<TAggregate>();
+            var query = context.Set<TAggregate>();
 
             if (query == null)
             {
-                throw new InvalidOperationException($"context.Query<T> where T is {typeof(TAggregate).FullName}");
+                throw new InvalidOperationException($"context.Set<T> where T is {typeof(TAggregate).FullName}");
             }
 
             var item = await query

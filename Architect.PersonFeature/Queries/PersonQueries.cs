@@ -30,7 +30,7 @@ namespace Architect.PersonFeature.Queries
         {
             filter.ArgumentNullCheck(nameof(filter));
 
-            var query = context.Query<AddressAggregate>()
+            var query = context.Set<AddressAggregate>()
                 .KeyFilter(filter.Id, x => x.Id)
                 .StringFilter(filter.Filter, x => x.Address, x => x.Country);
 
@@ -55,7 +55,7 @@ namespace Architect.PersonFeature.Queries
         {
             filter.ArgumentNullCheck(nameof(filter));
 
-            var query = context.Query<PersonAggregate>()
+            var query = context.Set<PersonAggregate>()
                 .StringFilter(filter.Filter, x => x.Name, x => x.Address);
 
             var totalCount = await query.CountAsync(token);
@@ -78,7 +78,7 @@ namespace Architect.PersonFeature.Queries
         {
             filter.ArgumentNullCheck(nameof(filter));
 
-            var query = context.Query<NameAggregate>()
+            var query = context.Set<NameAggregate>()
                 .KeyFilter(filter.Id, x => x.Id)
                 .StringFilter(filter.Filter, x => x.ShortName, x => x.LongName);
 
