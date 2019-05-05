@@ -9,10 +9,11 @@ namespace Architect.PersonFeature.Queries
 {
     public interface IPersonQueries
     {
-        Task<IDataResponse<PersonAggregate>> GetAsync(
-            int id, CancellationToken token = default);
-
-        Task<IListResponse<PersonAggregate>> GetAsync(
-            PeopleFilter filter, CancellationToken token = default);
+        Task<IDataResponse<AddressAggregate>> GetAddressAsync(int id, CancellationToken token = default);
+        Task<IListResponse<AddressAggregate>> GetAddressAsync(AddressFilter filter, CancellationToken token = default);
+        Task<IDataResponse<PersonAggregate>> GetAsync(int id, CancellationToken token = default);
+        Task<IListResponse<PersonAggregate>> GetAsync(PeopleFilter filter, CancellationToken token = default);
+        Task<IDataResponse<NameAggregate>> GetNameAsync(int id, CancellationToken token = default);
+        Task<IListResponse<NameAggregate>> GetNameAsync(NameFilter filter, CancellationToken token = default);
     }
 }

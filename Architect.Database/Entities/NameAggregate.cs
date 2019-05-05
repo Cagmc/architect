@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Text;
 
-using Architect.Database.Infrastructure;
+using Architect.Common.Infrastructure;
 
 namespace Architect.Database.Entities
 {

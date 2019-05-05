@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Architect.Database.Infrastructure
+namespace Architect.Common.Infrastructure
 {
     public abstract class AggregateEntityBase
     {
