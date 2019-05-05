@@ -4,7 +4,8 @@
 ## TODO
 
 * CQRS (create readonly context for aggregates)
-* Logging: Serilog
+* Logging: Serilog http://hamidmosalla.com/2018/02/15/asp-net-core-2-logging-with-serilog-and-microsoft-sql-server-sink/ 
+* Structured logging https://stackify.com/what-is-structured-logging-and-why-developers-need-it/
 * 2 kind of view models: list item and detailed
 * Create another feature
 * Authentication, authorization
