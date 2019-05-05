@@ -6,10 +6,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Architect.Common.Infrastructure
 {
-    public abstract class EntityStore<TDbContext, TEntity, TAggregate>
+    public abstract class EntityStore<TDbContext, TEntity>
         where TDbContext : DbContext
         where TEntity : EntityBase
-        where TAggregate : AggregateEntityBase
     {
         protected readonly TDbContext context;
 
@@ -22,6 +21,7 @@ namespace Architect.Common.Infrastructure
 
         public abstract Task<TEntity> GetEntityAsync(int id, CancellationToken token = default);
 
-        public abstract Task<TAggregate> GetAggregateAsync(int id, CancellationToken token = default);
+        public abstract Task<TAggregate> GetAggregateAsync<TAggregate>(int id, CancellationToken token = default)
+            where TAggregate : AggregateEntityBase;
     }
 }

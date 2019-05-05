@@ -11,10 +11,10 @@ namespace Architect.Common.Infrastructure
     {
         protected readonly IEventDispatcher eventDispatcher;
         protected readonly TDbContext context;
-        protected readonly EntityStore<TDbContext, TEntity, TAggregate> store;
+        protected readonly EntityStore<TDbContext, TEntity> store;
 
         public ServiceBase(TDbContext context,
-            EntityStore<TDbContext, TEntity, TAggregate> store, IEventDispatcher eventDispatcher)
+            EntityStore<TDbContext, TEntity> store, IEventDispatcher eventDispatcher)
         {
             this.eventDispatcher = eventDispatcher.ArgumentNullCheck(nameof(eventDispatcher));
             this.context = context.ArgumentNullCheck(nameof(context));

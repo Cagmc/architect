@@ -72,7 +72,7 @@ namespace Architect.PersonFeature.Services
 
             var entity = model.CreateEntity();
 
-            context.People.Add(entity);
+            context.Set<Person>().Add(entity);
 
             await context.SaveChangesAsync(token);
             await eventDispatcher.DispatchAsync(new Events.CreateEvent(entity));
@@ -94,9 +94,9 @@ namespace Architect.PersonFeature.Services
             }
             else
             {
-                context.People.Remove(entity);
-                context.Addresses.Remove(entity.Address);
-                context.Names.Remove(entity.Name);
+                context.Set<Person>().Remove(entity);
+                context.Set<Address>().Remove(entity.Address);
+                context.Set<Name>().Remove(entity.Name);
 
                 await context.SaveChangesAsync(token);
                 await eventDispatcher.DispatchAsync(new Events.DeleteEvent(entity));

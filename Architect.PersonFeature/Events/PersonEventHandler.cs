@@ -13,9 +13,9 @@ namespace Architect.PersonFeature.Events
         IEventHandler<DeleteEvent>
     {
         private readonly DatabaseContext context;
-        private readonly EntityStore<DatabaseContext, Person, PersonAggregate> store;
+        private readonly EntityStore<DatabaseContext, Person> store;
 
-        public PersonEventHandler(DatabaseContext context, EntityStore<DatabaseContext, Person, PersonAggregate> store)
+        public PersonEventHandler(DatabaseContext context, EntityStore<DatabaseContext, Person> store)
         {
             this.context = context;
             this.store = store;
@@ -46,13 +46,23 @@ namespace Architect.PersonFeature.Events
         protected virtual void Add(Person person)
         {
             var aggregate = new PersonAggregate(person);
-            context.PersonAggregates.Add(aggregate);
+            var nameAggregate = new NameAggregate(person.Name, person.Id);
+            var addressAggregate = new AddressAggregate(person.Address, person.Id);
+
+            context.Set<PersonAggregate>().Add(aggregate);
+            context.Set<NameAggregate>().Add(nameAggregate);
+            context.Set<AddressAggregate>().Add(addressAggregate);
         }
 
         protected virtual async Task RemoveAsync(int id, CancellationToken token = default)
         {
-            var original = await store.GetAggregateAsync(id, token);
-            context.PersonAggregates.Remove(original);
+            var original = await store.GetAggregateAsync<PersonAggregate>(id, token);
+            var originalName = await store.GetAggregateAsync<NameAggregate>(id, token);
+            var originalAddress = await store.GetAggregateAsync<AddressAggregate>(id, token);
+
+            context.Set<PersonAggregate>().Remove(original);
+            context.Set<NameAggregate>().Remove(originalName);
+            context.Set<AddressAggregate>().Remove(originalAddress);
         }
     }
 }

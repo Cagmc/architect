@@ -13,7 +13,7 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddScoped<IPersonService, PersonService>();
             services.AddScoped<IPersonTransactionalService, PersonTransactionalService>();
             services.AddScoped<IPersonQueries, PersonQueries>();
-            services.AddScoped<EntityStore<DatabaseContext, Person, PersonAggregate>, PersonStore>();
+            services.AddScoped<EntityStore<DatabaseContext, Person>, PersonStore>();
             services.AddScoped<PersonStore, PersonStore>();
 
             return services;
