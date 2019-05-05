@@ -3,16 +3,16 @@
 
 ## TODO
 
-* add more queries
-* 2 kind of view models: list item and detailed
 * CQRS (create readonly context for aggregates)
 * Logging: Serilog
+* 2 kind of view models: list item and detailed
 * Create another feature
 * Authentication, authorization
 * Custom headers
 
 ## DONE
 
+* add more queries
 * QueryExtensions
 * Pagination
 * Middleware
