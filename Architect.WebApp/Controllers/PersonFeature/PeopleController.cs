@@ -3,11 +3,8 @@ using System.ComponentModel.DataAnnotations;
 using System.Threading;
 using System.Threading.Tasks;
 
-using Architect.Common.Infrastructure.DataTransfer.Response;
-using Architect.Database.Entities;
 using Architect.PersonFeature.DataTransfer.Request;
 using Architect.PersonFeature.DataTransfer.Response;
-using Architect.PersonFeature.Queries;
 using Architect.PersonFeature.Services;
 using Architect.WebApp.Infrastructure;
 
@@ -22,12 +19,10 @@ namespace Architect.WebApp.Controllers.PersonFeature
     public class PeopleController : ApiController
     {
         private readonly IPersonTransactionalService service;
-        private readonly IPersonQueries queries;
 
-        public PeopleController(IPersonTransactionalService service, IPersonQueries queries)
+        public PeopleController(IPersonTransactionalService service)
         {
             this.service = service.ArgumentNullCheck(nameof(service));
-            this.queries = queries.ArgumentNullCheck(nameof(queries));
         }
 
         [HttpGet("{id}")]
@@ -36,16 +31,6 @@ namespace Architect.WebApp.Controllers.PersonFeature
         public async Task<IActionResult> Get([Required]int id, CancellationToken token)
         {
             var result = await service.GetAsync(id, token);
-
-            return GenerateResponse(result);
-        }
-
-        [HttpGet]
-        [ProducesResponseType(typeof(IListResponse<PersonAggregate>), StatusCodes.Status200OK)]
-        public async Task<IActionResult> GetList(
-            [Required][FromQuery] PeopleFilter filter, CancellationToken token)
-        {
-            var result = await queries.GetAsync(filter, token);
 
             return GenerateResponse(result);
         }
