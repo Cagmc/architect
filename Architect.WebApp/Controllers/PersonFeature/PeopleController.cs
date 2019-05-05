@@ -24,7 +24,6 @@ namespace Architect.WebApp.Controllers.PersonFeature
         public PeopleController(IPersonTransactionalService service, ILogger<PeopleController> logger)
         {
             this.service = service.ArgumentNullCheck(nameof(service));
-            logger.LogDebug("Test log");
         }
 
         [HttpGet("{id}")]
