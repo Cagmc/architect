@@ -23,13 +23,13 @@ namespace Architect.WebApp
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<DatabaseContext>(options => 
+            services.AddDbContext<DatabaseContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("ApplicationDatabase")));
 
-            services.AddPeopleFeature();
-            services.AddScoped<IEventDispatcher, EventDispatcher>();
+            services.AddServices();
 
-            services.AddApiVersioning(o => {
+            services.AddApiVersioning(o =>
+            {
                 o.ApiVersionReader = new HeaderApiVersionReader("x-api-version");
             });
 
@@ -39,7 +39,7 @@ namespace Architect.WebApp
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, 
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env,
             DatabaseContext context)
         {
             if (env.IsDevelopment())
