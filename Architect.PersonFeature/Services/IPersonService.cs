@@ -8,7 +8,7 @@ using Architect.PersonFeature.DataTransfer.Response;
 
 namespace Architect.PersonFeature.Services
 {
-    public interface IPersonService : IService<PersonViewModel, CreatePersonRequest, UpdatePersonRequest,DeletePersonRequest>
+    public interface IPersonService : IDomainService<PersonViewModel, CreatePersonRequest, UpdatePersonRequest,DeletePersonRequest>
     {
         Task<IStatusResponse> ChangeAddressAsync(
             ChangeAddressRequest model, CancellationToken token = default);

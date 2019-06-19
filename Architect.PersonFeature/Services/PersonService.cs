@@ -12,7 +12,7 @@ using Architect.PersonFeature.Queries;
 
 namespace Architect.PersonFeature.Services
 {
-    public class PersonService : ServiceBase<DatabaseContext, Person, PersonAggregate>, IPersonService
+    public class PersonService : DomainServiceBase<DatabaseContext, Person, PersonAggregate>, IPersonService
     {
         public PersonService(DatabaseContext context, PersonStore store, IEventDispatcher eventDispatcher)
             : base(context, store, eventDispatcher)

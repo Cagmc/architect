@@ -3,13 +3,21 @@ using System.Net;
 
 using Architect.Common.Infrastructure.DataTransfer.Response;
 
+using Microsoft.EntityFrameworkCore;
+
 namespace Architect.Common.Infrastructure
 {
-    public abstract class ResponsiveServiceBase<TEntity>
+    public abstract class ResponsiveServiceBase<TEntity, TDbContext> : ServiceBase<TDbContext>
         where TEntity : class
+        where TDbContext : DbContext
     {
         private readonly string notFoundTemplate = "{0} not found with id: {1}";
         private readonly string conflictTemplate = "{0} conflicted with data: {1}";
+
+        public ResponsiveServiceBase(TDbContext context) : base(context)
+        {
+
+        }
 
         #region Status not found
 

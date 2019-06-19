@@ -5,12 +5,14 @@ using System.Threading.Tasks;
 
 using Architect.Common.Infrastructure;
 
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace Architect.Database
 {
-    public class DatabaseContext : DbContext
+    public class DatabaseContext : IdentityDbContext<IdentityUser<int>, IdentityRole<int>, int>
     {
         public DatabaseContext(DbContextOptions<DatabaseContext> options) : base(options)
         {

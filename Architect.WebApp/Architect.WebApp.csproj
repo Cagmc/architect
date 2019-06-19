@@ -28,6 +28,7 @@
     <ProjectReference Include="..\Architect.Common\Architect.Common.csproj" />
     <ProjectReference Include="..\Architect.Database\Architect.Database.csproj" />
     <ProjectReference Include="..\Architect.PersonFeature\Architect.PersonFeature.csproj" />
+    <ProjectReference Include="..\Architect.UserFeature\Architect.UserFeature.csproj" />
   </ItemGroup>
 
 </Project>

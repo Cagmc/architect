@@ -11,7 +11,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Architect.PersonFeature", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Architect.Common", "Architect.Common\Architect.Common.csproj", "{231275D5-57E7-4CD9-9203-27AC8E679EE7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Architect.WebApp", "Architect.WebApp\Architect.WebApp.csproj", "{F5227E8E-46C9-4059-9024-080EA8890DBE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Architect.WebApp", "Architect.WebApp\Architect.WebApp.csproj", "{F5227E8E-46C9-4059-9024-080EA8890DBE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Architect.UserFeature", "Architect.UserFeature\Architect.UserFeature.csproj", "{72FBBB8B-C000-4B61-8403-59174399718A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{F5227E8E-46C9-4059-9024-080EA8890DBE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F5227E8E-46C9-4059-9024-080EA8890DBE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F5227E8E-46C9-4059-9024-080EA8890DBE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{72FBBB8B-C000-4B61-8403-59174399718A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{72FBBB8B-C000-4B61-8403-59174399718A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{72FBBB8B-C000-4B61-8403-59174399718A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{72FBBB8B-C000-4B61-8403-59174399718A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

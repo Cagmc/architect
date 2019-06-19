@@ -27,6 +27,7 @@ namespace Architect.WebApp
                 options.UseSqlServer(Configuration.GetConnectionString("ApplicationDatabase")));
 
             services.AddServices();
+            services.AddIdentityAuthentication();
 
             services.AddApiVersioning(o =>
             {
@@ -58,6 +59,7 @@ namespace Architect.WebApp
 
             app.UseMiddleware<Middleware.IdentifierValidationMiddleware>();
             app.UseHttpsRedirection();
+            app.UseAuthentication();
             app.UseMvc();
         }
     }

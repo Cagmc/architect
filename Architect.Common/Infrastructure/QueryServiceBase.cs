@@ -8,15 +8,13 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Architect.Common.Infrastructure
 {
-    public abstract class QueryServiceBase<TDbContext, TEntity> : ResponsiveServiceBase<TEntity>
+    public abstract class QueryServiceBase<TDbContext, TEntity> : ResponsiveServiceBase<TEntity, TDbContext>
         where TDbContext : DbContext
         where TEntity : class
     {
-        protected readonly TDbContext context;
-
-        public QueryServiceBase(TDbContext context)
+        public QueryServiceBase(TDbContext context) : base(context)
         {
-            this.context = context.ArgumentNullCheck(nameof(context));
+
         }
 
         protected virtual async Task<IDataResponse<TAggregate>> GetAggregateAsync<TAggregate>(
