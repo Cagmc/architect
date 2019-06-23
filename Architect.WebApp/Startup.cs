@@ -1,5 +1,4 @@
-﻿using Architect.Common.Infrastructure;
-using Architect.Database;
+﻿using Architect.Database;
 
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -28,6 +27,9 @@ namespace Architect.WebApp
 
             services.AddServices();
             services.AddIdentityAuthentication();
+
+            services.AddScoped<BackgroundTasks.IScopedProcessingService, BackgroundTasks.ScopedProcessingService>();
+            services.AddHostedService<BackgroundTasks.ConsumeScopedServiceHostedService>();
 
             services.AddApiVersioning(o =>
             {

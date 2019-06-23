@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -23,10 +24,14 @@ namespace Architect.WebApp.Controllers
     public class LoginController : ApiController
     {
         private readonly SignInManager<IdentityUser<int>> signInManager;
+        private readonly IHttpContextAccessor httpContext;
+        private readonly RoleManager<IdentityRole<int>> roleManager;
 
-        public LoginController(SignInManager<IdentityUser<int>> signInManager)
+        public LoginController(SignInManager<IdentityUser<int>> signInManager, IHttpContextAccessor httpContext, RoleManager<IdentityRole<int>> roleManager)
         {
             this.signInManager = signInManager;
+            this.httpContext = httpContext;
+            this.roleManager = roleManager;
         }
 
         [HttpPost("register")]
@@ -59,6 +64,18 @@ namespace Architect.WebApp.Controllers
 
             if (signInResult.Succeeded)
             {
+                var identityUser = await signInManager.UserManager.FindByEmailAsync(request.Email);
+
+                if (!await signInManager.UserManager.IsInRoleAsync(identityUser, Roles.Administrators))
+                {
+                    if(!await roleManager.RoleExistsAsync(Roles.Administrators))
+                    {
+                        await roleManager.CreateAsync(new IdentityRole<int>(Roles.Administrators));
+                    }
+
+                    await signInManager.UserManager.AddToRoleAsync(identityUser, Roles.Administrators);
+                }
+
                 return Ok();
             }
             else
@@ -92,5 +109,29 @@ namespace Architect.WebApp.Controllers
         {
             return Ok();
         }
+
+        [HttpGet("policy-authorized")]
+        [Authorize(Policies.All)]
+        [ProducesResponseType(200)]
+        public IActionResult AdminAuthorized()
+        {
+            var user = User;
+            var user2 = httpContext.HttpContext.User;
+
+            return Ok();
+        }
+    }
+
+    public static class Roles
+    {
+        public const string Developer = nameof(Developer);
+        public const string Administrators = nameof(Administrators);
+        public const string Customers = nameof(Customers);
+    }
+
+    public static class Policies
+    {
+        public const string All = nameof(All);
+        public const string Administration = nameof(Administration);
     }
 }

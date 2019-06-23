@@ -1,7 +1,7 @@
 ﻿using System;
 
 using Architect.Database;
-
+using Architect.WebApp.Controllers;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -52,6 +52,22 @@ namespace Microsoft.Extensions.DependencyInjection
                 options.LoginPath = "/Identity/Account/Login";
                 options.AccessDeniedPath = "/Identity/Account/AccessDenied";
                 options.SlidingExpiration = true;
+            });
+
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy(Policies.All,
+                    authBuilder =>
+                    {
+                        authBuilder.RequireRole(Roles.Administrators);
+                        authBuilder.RequireRole(Roles.Customers);
+                    });
+                options.AddPolicy(Policies.Administration,
+                    authBuilder =>
+                    {
+                        authBuilder.RequireRole(Roles.Administrators);
+                        authBuilder.RequireRole(Roles.Developer);
+                    });
             });
 
             return services;
