@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
+
 using Architect.Database;
+
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;

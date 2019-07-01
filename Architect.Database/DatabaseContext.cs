@@ -21,6 +21,7 @@ namespace Architect.Database
 
         public DbSet<Entities.Address> Addresses { get; set; }
         public DbSet<Entities.AddressAggregate> AddressAggregates { get; set; }
+        public DbSet<Entities.BackgroundJob> BackgroundJobs { get; set; }
         public DbSet<Entities.Company> Companies { get; set; }
         public DbSet<Entities.Employment> Employments { get; set; }
         public DbSet<Entities.Label> Labels { get; set; }
