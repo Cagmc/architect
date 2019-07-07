@@ -4,32 +4,58 @@ using System.Threading.Tasks;
 
 using Architect.Common.Infrastructure;
 using Architect.Common.Infrastructure.DataTransfer.Response;
-using Architect.Database;
 using Architect.UserFeature.DataTransfer.Request;
 using Architect.UserFeature.DataTransfer.Response;
 
 namespace Architect.UserFeature.Services
 {
-    public class LoginTransactionalService : ServiceBase<DatabaseContext>, ILoginTransactionalService
+    public class LoginTransactionalService : ILoginTransactionalService
     {
-        public LoginTransactionalService(DatabaseContext context) : base(context)
-        {
+        private readonly ILoginService service;
 
+        public LoginTransactionalService(ILoginService service)
+        {
+            this.service = service.ArgumentNullCheck(nameof(service));
         }
 
-        public Task<IDataResponse<SelfViewModel>> GetSelfAsync(CancellationToken token = default)
+        public async Task<IDataResponse<SelfViewModel>> GetSelfAsync(
+            CancellationToken token = default)
         {
-            throw new NotImplementedException();
+            using (var scope = TransactionFactory.CreateTransaction())
+            {
+                var result = await service.GetSelfAsync(token)
+                    .ConfigureAwait(false);
+                scope.Complete();
+
+                return result;
+            }
         }
 
-        public Task<IDataResponse<SelfViewModel>> LoginAsync(LoginRequest model, CancellationToken token = default)
+        public async Task<IDataResponse<SelfViewModel>> LoginAsync(
+            LoginRequest model, CancellationToken token = default)
         {
-            throw new NotImplementedException();
+            model.ArgumentNullCheck(nameof(model));
+
+            using (var scope = TransactionFactory.CreateTransaction())
+            {
+                var result = await service.LoginAsync(model, token)
+                    .ConfigureAwait(false);
+                scope.Complete();
+
+                return result;
+            }
         }
 
-        public Task<IStatusResponse> LogoutAsync(CancellationToken token = default)
+        public async Task<IStatusResponse> LogoutAsync(CancellationToken token = default)
         {
-            throw new NotImplementedException();
+            using (var scope = TransactionFactory.CreateTransaction())
+            {
+                var result = await service.LogoutAsync(token)
+                    .ConfigureAwait(false);
+                scope.Complete();
+
+                return result;
+            }
         }
     }
 }

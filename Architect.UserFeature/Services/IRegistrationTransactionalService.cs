@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Architect.UserFeature.Services
 {
-    interface IRegistrationTransactionalService
+    public interface IRegistrationTransactionalService : IRegistrationService
     {
     }
 }

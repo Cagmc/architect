@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Architect.UserFeature.DataTransfer.Response
+﻿namespace Architect.UserFeature.DataTransfer.Response
 {
     public class SelfViewModel
     {
+        public int Id { get; set; }
+        public string Email { get; set; }
     }
 }

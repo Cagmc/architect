@@ -7,6 +7,7 @@ namespace Microsoft.Extensions.DependencyInjection
         public static IServiceCollection AddServices(this IServiceCollection services)
         {
             services.AddPeopleFeature();
+            services.AddUserFeature();
             services.AddScoped<IEventDispatcher, EventDispatcher>();
 
             return services;
