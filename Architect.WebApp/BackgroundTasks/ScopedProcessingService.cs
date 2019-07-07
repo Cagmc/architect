@@ -23,9 +23,9 @@ namespace Architect.WebApp.BackgroundTasks
         {
             try
             {
-                context.Add(new Label { });
-                await context.SaveChangesAsync(token);
-                logger.LogInformation("Scoped Processing Service is working.");
+                //context.Add(new Label { });
+                //await context.SaveChangesAsync(token);
+                //logger.LogInformation("Scoped Processing Service is working.");
             }
             catch (System.Exception)
             {

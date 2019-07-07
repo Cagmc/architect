@@ -3,6 +3,9 @@
 
 ## TODO
 
+* Move ModelBuilderExtensions to Common (CreateViews should search assemblyes for SQL code to apply)
+* QueryTypes (SQL and View)
+* Background tasks (common job processing)
 * CQRS (create readonly context for aggregates)
 * Logging: Serilog http://hamidmosalla.com/2018/02/15/asp-net-core-2-logging-with-serilog-and-microsoft-sql-server-sink/ 
 * Structured logging https://stackify.com/what-is-structured-logging-and-why-developers-need-it/

@@ -28,8 +28,8 @@ namespace Architect.WebApp
             services.AddServices();
             services.AddIdentityAuthentication();
 
-            services.AddScoped<BackgroundTasks.IScopedProcessingService, BackgroundTasks.ScopedProcessingService>();
-            services.AddHostedService<BackgroundTasks.ConsumeScopedServiceHostedService>();
+            //services.AddScoped<BackgroundTasks.IScopedProcessingService, BackgroundTasks.ScopedProcessingService>();
+            //services.AddHostedService<BackgroundTasks.ConsumeScopedServiceHostedService>();
 
             services.AddApiVersioning(o =>
             {

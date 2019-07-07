@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Architect.Common.Infrastructure
 {
-    public abstract class EntityBase
+    public abstract class EntityBase : IEntityBase
     {
         protected readonly DeleteBehavior deleteBehavior = DeleteBehavior.Restrict;
 

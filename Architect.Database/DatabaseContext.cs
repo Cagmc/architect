@@ -1,6 +1,4 @@
-﻿using System;
-using System.Linq;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 
 using Architect.Common.Infrastructure;
@@ -18,6 +16,9 @@ namespace Architect.Database
         {
 
         }
+
+        public DbQuery<QueryTypes.PersonSqlQuery> PersonSqlQueries { get; set; }
+        public DbQuery<QueryTypes.PersonViewQuery> PersonViews { get; set; }
 
         public DbSet<Entities.Address> Addresses { get; set; }
         public DbSet<Entities.AddressAggregate> AddressAggregates { get; set; }
@@ -37,24 +38,10 @@ namespace Architect.Database
         {
             modelBuilder.HasDefaultSchema("arc");
 
-            OnModelCreatingEntities(modelBuilder);
+            modelBuilder.CreateViews(this);
+            modelBuilder.CreateEntities();
 
             base.OnModelCreating(modelBuilder);
-        }
-
-        private void OnModelCreatingEntities(ModelBuilder modelBuilder)
-        {
-            var type = typeof(EntityBase);
-            var types = AppDomain.CurrentDomain.GetAssemblies()
-                .SelectMany(s => s.GetTypes())
-                .Where(p => type.IsAssignableFrom(p))
-                .Where(p => !p.IsAbstract);
-
-            foreach (var item in types)
-            {
-                var instance = (EntityBase)Activator.CreateInstance(item);
-                instance.OnModelCreating(modelBuilder);
-            }
         }
 
         public override int SaveChanges()

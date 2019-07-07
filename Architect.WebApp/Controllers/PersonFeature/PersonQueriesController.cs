@@ -1,16 +1,20 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
 using Architect.Common.Infrastructure.DataTransfer.Response;
+using Architect.Database;
 using Architect.Database.Entities;
+using Architect.Database.QueryTypes;
 using Architect.PersonFeature.DataTransfer.Request;
 using Architect.PersonFeature.Queries;
 using Architect.WebApp.Infrastructure;
 
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace Architect.WebApp.Controllers.PersonFeature
 {
@@ -20,10 +24,46 @@ namespace Architect.WebApp.Controllers.PersonFeature
     public class PersonQueriesController : ApiController
     {
         private readonly IPersonQueries queries;
+        private readonly DatabaseContext context;
 
-        public PersonQueriesController(IPersonQueries queries)
+        public PersonQueriesController(IPersonQueries queries, DatabaseContext context)
         {
             this.queries = queries.ArgumentNullCheck(nameof(queries));
+            this.context = context;
+        }
+
+        [HttpGet("view")]
+        public async Task<IActionResult> GetView(CancellationToken token)
+        {
+            try
+            {
+                var people = await context.Query<PersonViewQuery>().ToListAsync(token);
+
+                return Ok(people);
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine(ex.Message);
+            }
+
+            return StatusCode(500);
+        }
+
+        [HttpGet("sql")]
+        public async Task<IActionResult> GetSql(CancellationToken token)
+        {
+            try
+            {
+                var people = await context.Query<PersonSqlQuery>().PersonSqlQuery().ToListAsync(token);
+
+                return Ok(people);
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine(ex.Message);
+            }
+
+            return StatusCode(500);
         }
 
         [HttpGet("{id}")]
