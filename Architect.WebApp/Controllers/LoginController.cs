@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
 
+using Architect.Common.Constants;
 using Architect.UserFeature.DataTransfer.Request;
 using Architect.WebApp.Infrastructure;
 
@@ -111,7 +111,7 @@ namespace Architect.WebApp.Controllers
         }
 
         [HttpGet("policy-authorized")]
-        [Authorize(Policies.All)]
+        [Authorize(Policies.Administration)]
         [ProducesResponseType(200)]
         public IActionResult AdminAuthorized()
         {
@@ -120,18 +120,5 @@ namespace Architect.WebApp.Controllers
 
             return Ok();
         }
-    }
-
-    public static class Roles
-    {
-        public const string Developer = nameof(Developer);
-        public const string Administrators = nameof(Administrators);
-        public const string Customers = nameof(Customers);
-    }
-
-    public static class Policies
-    {
-        public const string All = nameof(All);
-        public const string Administration = nameof(Administration);
     }
 }

@@ -1,7 +1,8 @@
 ﻿using System;
 
+using Architect.Common.Constants;
 using Architect.Database;
-using Architect.WebApp.Controllers;
+
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;

@@ -25,7 +25,7 @@ namespace Architect.WebApp.BackgroundTasks
 
         public IServiceProvider Services { get; }
 
-        public async Task StartAsync(CancellationToken cancellationToken)
+        public Task StartAsync(CancellationToken cancellationToken)
         {
             logger.LogInformation(
                 "Consume Scoped Service Hosted Service is starting.");
@@ -33,7 +33,7 @@ namespace Architect.WebApp.BackgroundTasks
             timer = new Timer(DoWorkAsync, null, TimeSpan.Zero,
                 TimeSpan.FromSeconds(5));
 
-            return;
+            return Task.CompletedTask;
         }
 
         private async void DoWorkAsync(object state)
