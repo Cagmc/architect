@@ -1,6 +1,6 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
-
+using Architect.Common.Constants;
 using Architect.Common.Infrastructure;
 
 using Microsoft.AspNetCore.Identity;
@@ -36,7 +36,7 @@ namespace Architect.Database
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.HasDefaultSchema("arc");
+            modelBuilder.HasDefaultSchema(DatabaseConsts.SCHEMA);
 
             modelBuilder.CreateViews(this);
             modelBuilder.CreateEntities();

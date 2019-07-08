@@ -3,7 +3,7 @@
 
 ## TODO
 
-* Move ModelBuilderExtensions to Common (CreateViews should search assemblyes for SQL code to apply)
+* Store SQL scripts in file system, and view names in a correct place
 * QueryTypes (SQL and View)
 * Background tasks (common job processing)
 * CQRS (create readonly context for aggregates)

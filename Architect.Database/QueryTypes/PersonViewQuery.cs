@@ -1,4 +1,5 @@
-﻿using Architect.Common.Infrastructure;
+﻿using Architect.Common.Constants;
+using Architect.Common.Infrastructure;
 
 using Microsoft.EntityFrameworkCore;
 
@@ -12,7 +13,7 @@ namespace Architect.Database.QueryTypes
 
         public void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Query<PersonViewQuery>().ToView("PersonView", "arc");
+            modelBuilder.Query<PersonViewQuery>().ToView(DatabaseConsts.PERSONVIEW, DatabaseConsts.SCHEMA);
         }
     }
 }
