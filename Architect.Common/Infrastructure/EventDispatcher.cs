@@ -17,13 +17,7 @@ namespace Architect.Common.Infrastructure
         public virtual async Task DispatchAsync<T>(T domainEvent, CancellationToken token = default)
             where T : IEvent
         {
-            var genericHanlerType = typeof(IEventHandler<T>);
-
-            var types = AppDomain.CurrentDomain.GetAssemblies()
-                .SelectMany(s => s.GetTypes())
-                .Where(p => genericHanlerType.IsAssignableFrom(p))
-                .Where(p => !p.IsAbstract);
-
+            var types = typeof(IEventHandler<T>).GetConcreteTypes();
 
             foreach (var item in types)
             {
