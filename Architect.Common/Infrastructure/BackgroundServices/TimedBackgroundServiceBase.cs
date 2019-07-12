@@ -29,7 +29,10 @@ namespace Architect.Common.Infrastructure.BackgroundServices
 
         protected virtual async void TimerCallback(object state)
         {
-            await DoWorkAsync();
+            if (options.IsEnabled)
+            {
+                await DoWorkAsync(); 
+            }
         }
 
         public virtual Task StartAsync(CancellationToken cancellationToken)
@@ -107,11 +110,5 @@ namespace Architect.Common.Infrastructure.BackgroundServices
             // GC.SuppressFinalize(this);
         }
         #endregion
-    }
-
-    public interface ITimedOptions
-    {
-        int DelaySeconds { get; set; }
-        int FrequencySeconds { get; set; }
     }
 }
