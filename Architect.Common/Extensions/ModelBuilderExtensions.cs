@@ -18,18 +18,5 @@ namespace Microsoft.EntityFrameworkCore
 
             return modelBuilder;
         }
-
-        public static ModelBuilder CreateViews(this ModelBuilder modelBuilder, DbContext context)
-        {
-            var types = typeof(ISqlViewApplier).GetConcreteTypes();
-
-            foreach (var item in types)
-            {
-                var instance = (ISqlViewApplier)Activator.CreateInstance(item);
-                instance.Apply(modelBuilder, context);
-            }
-
-            return modelBuilder;
-        }
     }
 }

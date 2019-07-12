@@ -55,7 +55,7 @@ namespace Architect.WebApp
                 app.UseHsts();
             }
 
-            context.Database.Migrate();
+            context.Migrate();
 
             app.ConfigureSwagger();
 

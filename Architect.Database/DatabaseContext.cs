@@ -1,5 +1,6 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
+
 using Architect.Common.Constants;
 using Architect.Common.Infrastructure;
 
@@ -38,7 +39,6 @@ namespace Architect.Database
         {
             modelBuilder.HasDefaultSchema(DatabaseConsts.SCHEMA);
 
-            modelBuilder.CreateViews(this);
             modelBuilder.CreateEntities();
 
             base.OnModelCreating(modelBuilder);
@@ -81,6 +81,18 @@ namespace Architect.Database
             {
                 SetMetadata(entityEntry);
             }
+        }
+
+        public void Migrate()
+        {
+            Database.Migrate();
+            this.CreateViews();
+        }
+
+        public async Task MigrateAsync(CancellationToken token = default)
+        {
+            await Database.MigrateAsync(token).ConfigureAwait(false);
+            await this.CreateViewsAsync(token).ConfigureAwait(false);
         }
 
         private void SetMetadata(EntityEntry entityEntry)
