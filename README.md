@@ -4,6 +4,7 @@
 ## TODO
 
 * Store SQL scripts in file system, and view names in a correct place
+* Handling stored procedures (queries and midifying operations)
 * QueryTypes (SQL and View)
 * Background tasks (common job processing)
 * CQRS (create readonly context for aggregates)
@@ -13,6 +14,8 @@
 * Create another feature
 * Authentication, authorization
 * Custom headers
+* C# 3.0 upgrade
+* file (picture) handling
 
 ## DONE
 
