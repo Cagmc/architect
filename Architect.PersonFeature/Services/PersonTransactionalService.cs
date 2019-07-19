@@ -26,7 +26,7 @@ namespace Architect.PersonFeature.Services
             using (var scope = TransactionFactory.CreateTransaction())
             {
                 var result = await service.ChangeAddressAsync(model, token)
-                    .ConfigureAwait(false);
+                    .ConfigureAwaitFalse();
                 scope.Complete();
 
                 return result;
@@ -41,7 +41,7 @@ namespace Architect.PersonFeature.Services
             using (var scope = TransactionFactory.CreateTransaction())
             {
                 var result = await service.ChangeNameAsync(model, token)
-                    .ConfigureAwait(false);
+                    .ConfigureAwaitFalse();
                 scope.Complete();
 
                 return result;

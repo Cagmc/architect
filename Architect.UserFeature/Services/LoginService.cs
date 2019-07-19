@@ -41,7 +41,7 @@ namespace Architect.UserFeature.Services
             }
 
             var user = await signInManager.UserManager.FindByEmailAsync(principal.Identity.Name)
-                .ConfigureAwait(false);
+                .ConfigureAwaitFalse();
 
             var result = new SelfViewModel
             {
@@ -59,23 +59,23 @@ namespace Architect.UserFeature.Services
 
             var signInResult = await signInManager.PasswordSignInAsync(
                 model.Email, model.Password, model.IsPersistent, false)
-                .ConfigureAwait(false);
+                .ConfigureAwaitFalse();
 
             if (signInResult.Succeeded)
             {
                 var identityUser = await signInManager.UserManager.FindByEmailAsync(model.Email)
-                    .ConfigureAwait(false);
+                    .ConfigureAwaitFalse();
 
                 if (!await signInManager.UserManager.IsInRoleAsync(identityUser, Roles.Administrators))
                 {
-                    if (!await roleManager.RoleExistsAsync(Roles.Administrators).ConfigureAwait(false))
+                    if (!await roleManager.RoleExistsAsync(Roles.Administrators).ConfigureAwaitFalse())
                     {
                         await roleManager.CreateAsync(new IdentityRole<int>(Roles.Administrators))
-                            .ConfigureAwait(false);
+                            .ConfigureAwaitFalse();
                     }
 
                     await signInManager.UserManager.AddToRoleAsync(identityUser, Roles.Administrators)
-                        .ConfigureAwait(false);
+                        .ConfigureAwaitFalse();
                 }
 
                 var result = new SelfViewModel { Id = identityUser.Id, Email = identityUser.Email };
@@ -91,7 +91,7 @@ namespace Architect.UserFeature.Services
 
         public async Task<IStatusResponse> LogoutAsync(CancellationToken token = default)
         {
-            await signInManager.SignOutAsync().ConfigureAwait(false);
+            await signInManager.SignOutAsync().ConfigureAwaitFalse();
 
             return new StatusResponse(System.Net.HttpStatusCode.OK, null);
         }

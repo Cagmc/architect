@@ -47,7 +47,7 @@ namespace Architect.WebApp.BackgroundTasks
                     scope.ServiceProvider
                         .GetRequiredService<DatabaseContext>();
 
-                var addresses = await context.Addresses.ToListAsync().ConfigureAwait(false);
+                var addresses = await context.Addresses.ToListAsync().ConfigureAwaitFalse();
             }
 
             for (int i = 0; i < 10; i++)

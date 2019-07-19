@@ -31,7 +31,7 @@ namespace Architect.Common.Infrastructure.BackgroundServices
         {
             if (options.IsEnabled)
             {
-                await DoWorkAsync(); 
+                await DoWorkAsync().ConfigureAwaitFalse();
             }
         }
 

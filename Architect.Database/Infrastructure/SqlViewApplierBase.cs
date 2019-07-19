@@ -21,8 +21,8 @@ namespace Architect.Database.Infrastructure
 
         public async Task ApplyAsync(DbContext context, CancellationToken token = default)
         {
-            await context.Database.ExecuteSqlCommandAsync(Drop(), token).ConfigureAwait(false);
-            await context.Database.ExecuteSqlCommandAsync(Create(), token).ConfigureAwait(false);
+            await context.Database.ExecuteSqlCommandAsync(Drop(), token).ConfigureAwaitFalse();
+            await context.Database.ExecuteSqlCommandAsync(Create(), token).ConfigureAwaitFalse();
         }
 
         private RawSqlString Drop()

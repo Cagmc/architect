@@ -91,8 +91,8 @@ namespace Architect.Database
 
         public async Task MigrateAsync(CancellationToken token = default)
         {
-            await Database.MigrateAsync(token).ConfigureAwait(false);
-            await this.CreateViewsAsync(token).ConfigureAwait(false);
+            await Database.MigrateAsync(token).ConfigureAwaitFalse();
+            await this.CreateViewsAsync(token).ConfigureAwaitFalse();
         }
 
         private void SetMetadata(EntityEntry entityEntry)

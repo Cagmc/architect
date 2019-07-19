@@ -28,7 +28,7 @@ namespace Microsoft.EntityFrameworkCore
             foreach (var item in types)
             {
                 var instance = (ISqlViewApplier)Activator.CreateInstance(item);
-                await instance.ApplyAsync(context, token).ConfigureAwait(false);
+                await instance.ApplyAsync(context, token).ConfigureAwaitFalse();
             }
 
             return context;

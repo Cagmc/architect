@@ -24,7 +24,7 @@ namespace Architect.UserFeature.Services
             using (var scope = TransactionFactory.CreateTransaction())
             {
                 var result = await service.GetSelfAsync(token)
-                    .ConfigureAwait(false);
+                    .ConfigureAwaitFalse();
                 scope.Complete();
 
                 return result;
@@ -39,7 +39,7 @@ namespace Architect.UserFeature.Services
             using (var scope = TransactionFactory.CreateTransaction())
             {
                 var result = await service.LoginAsync(model, token)
-                    .ConfigureAwait(false);
+                    .ConfigureAwaitFalse();
                 scope.Complete();
 
                 return result;
@@ -51,7 +51,7 @@ namespace Architect.UserFeature.Services
             using (var scope = TransactionFactory.CreateTransaction())
             {
                 var result = await service.LogoutAsync(token)
-                    .ConfigureAwait(false);
+                    .ConfigureAwaitFalse();
                 scope.Complete();
 
                 return result;

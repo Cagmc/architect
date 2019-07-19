@@ -25,7 +25,7 @@ namespace Architect.UserFeature.Services
             using (var scope = TransactionFactory.CreateTransaction())
             {
                 var result = await service.RegistrationAsync(request, token)
-                    .ConfigureAwait(false);
+                    .ConfigureAwaitFalse();
                 scope.Complete();
 
                 return result;
