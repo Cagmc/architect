@@ -2,6 +2,7 @@
 .Net core achitecture playground
 
 ## In progress
+
 * 2 kind of view models: list item and detailed
 * New base for query request filters
 * Different service interface variants (w/o query)
@@ -9,6 +10,7 @@
 
 ## TODO
 
+* Translated label handling
 * Type of Id should come from template => support of different Id types
 * Implement a real feature (Book catalog)
 * Host in Azure
