@@ -8,11 +8,8 @@ namespace Microsoft.EntityFrameworkCore
     {
         public static ModelBuilder CreateEntities(this ModelBuilder modelBuilder)
         {
-            var types = typeof(IEntityBase).GetConcreteTypes();
-
-            foreach (var item in types)
+            foreach (var instance in TypeExtensions.GetInstances<IEntityBase>())
             {
-                var instance = (IEntityBase)Activator.CreateInstance(item);
                 instance.OnModelCreating(modelBuilder);
             }
 
