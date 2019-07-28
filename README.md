@@ -6,6 +6,7 @@
 * 2 kind of view models: list item and detailed
 * New base for query request filters
 * Different service interface variants (w/o query)
+* Base class for services, where all the shared code implemented
 * Interface review for query services
 
 ## TODO
@@ -27,6 +28,7 @@
 * Custom headers
 * C# 3.0 upgrade
 * file (picture) handling
+* pessimistic concurrency handling (lock rows)
 
 ## DONE
 
