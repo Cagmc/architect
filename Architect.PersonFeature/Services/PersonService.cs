@@ -1,14 +1,17 @@
 ﻿using System;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
 using Architect.Common.Infrastructure;
+using Architect.Common.Infrastructure.DataTransfer.Request;
 using Architect.Common.Infrastructure.DataTransfer.Response;
 using Architect.Database;
 using Architect.Database.Entities;
 using Architect.PersonFeature.DataTransfer.Request;
 using Architect.PersonFeature.DataTransfer.Response;
 using Architect.PersonFeature.Queries;
+using Microsoft.EntityFrameworkCore;
 
 namespace Architect.PersonFeature.Services
 {
@@ -108,23 +111,43 @@ namespace Architect.PersonFeature.Services
         }
 
         public virtual async Task<IDataResponse<PersonViewModel>> GetAsync(
-            int id, CancellationToken token = default)
+            GetRequest request, CancellationToken token = default)
         {
-            id.ArgumentOutOfRangeCheck(nameof(id));
-            var entity = await store.GetEntityAsync(id, token);
+            request.ArgumentNullCheck(nameof(request));
+            request.Id.ArgumentOutOfRangeCheck(nameof(request.Id));
+
+            var entity = await store.GetEntityAsync(request.Id, token);
 
             IDataResponse<PersonViewModel> response;
             if (entity == null)
             {
-                response = NotFoundDataResponse<PersonViewModel>(id);
+                response = NotFoundDataResponse<PersonViewModel>(request.Id);
             }
             else
             {
                 var viewModel = new PersonViewModel(entity.Id, entity);
-                response = new DataResponse<PersonViewModel>(viewModel, id);
+                response = new DataResponse<PersonViewModel>(viewModel, request.Id);
             }
 
             return response;
+        }
+
+        public virtual async Task<IListResponse<PersonOverviewViewModel>> GetListAsync(
+            PaginationFilter filter, CancellationToken token = default)
+        {
+            filter.ArgumentNullCheck(nameof(filter));
+
+            var query = context.Set<Person>().AsQueryable();
+
+            var totalCount = await query.CountAsync(token).ConfigureAwaitFalse();
+
+            var items = await query
+                .SelectPersonOverviewViewModel()
+                .Paginate(filter)
+                .ToListAsync(token).ConfigureAwaitFalse();
+
+            return new ListResponse<PersonOverviewViewModel>(items, totalCount, 
+                filter.Page ?? 1, totalCount.CountPages(filter.PageSize));
         }
 
         public virtual async Task<IStatusResponse> UpdateAsync(

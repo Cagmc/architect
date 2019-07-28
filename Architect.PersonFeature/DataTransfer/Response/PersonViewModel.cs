@@ -5,7 +5,7 @@ using Architect.Common.Infrastructure.DataTransfer.Response;
 
 namespace Architect.PersonFeature.DataTransfer.Response
 {
-    public class PersonViewModel : ViewModelBase
+    public class PersonViewModel : DetailedViewModelBase
     {
         public PersonViewModel(int id, Database.Entities.Person entity) : base(id)
         {

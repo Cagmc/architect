@@ -9,13 +9,12 @@ using Architect.PersonFeature.DataTransfer.Response;
 
 namespace Architect.PersonFeature.Services
 {
-    public class PersonTransactionalService : IPersonTransactionalService
+    public class PersonTransactionalService 
+        : SimpleTransactionalService<IPersonService, PersonViewModel, PersonOverviewViewModel, CreatePersonRequest, UpdatePersonRequest, DeletePersonRequest>, 
+        IPersonTransactionalService
     {
-        protected readonly IPersonService service;
-
-        public PersonTransactionalService(IPersonService service)
+        public PersonTransactionalService(IPersonService service) : base(service)
         {
-            this.service = service.ArgumentNullCheck(nameof(service));
         }
 
         public virtual async Task<IStatusResponse> ChangeAddressAsync(
@@ -42,58 +41,6 @@ namespace Architect.PersonFeature.Services
             {
                 var result = await service.ChangeNameAsync(model, token)
                     .ConfigureAwaitFalse();
-                scope.Complete();
-
-                return result;
-            }
-        }
-
-        public virtual async Task<IStatusResponse> CreateAsync(
-            CreatePersonRequest model, CancellationToken token = default)
-        {
-            model.ArgumentNullCheck(nameof(model));
-
-            using (var scope = TransactionFactory.CreateTransaction())
-            {
-                var result = await service.CreateAsync(model, token);
-                scope.Complete();
-
-                return result;
-            }
-        }
-
-        public virtual async Task<IStatusResponse> DeleteAsync(
-            DeletePersonRequest model, CancellationToken token = default)
-        {
-            model.ArgumentNullCheck(nameof(model));
-
-            using (var scope = TransactionFactory.CreateTransaction())
-            {
-                var result = await service.DeleteAsync(model, token);
-                scope.Complete();
-
-                return result;
-            }
-        }
-
-        public virtual async Task<IDataResponse<PersonViewModel>> GetAsync(
-            int id, CancellationToken token = default)
-        {
-            id.ArgumentOutOfRangeCheck(nameof(id));
-
-            var result = await service.GetAsync(id, token);
-
-            return result;
-        }
-
-        public virtual async Task<IStatusResponse> UpdateAsync(
-            UpdatePersonRequest model, CancellationToken token = default)
-        {
-            model.ArgumentNullCheck(nameof(model));
-
-            using (var scope = TransactionFactory.CreateTransaction())
-            {
-                var result = await service.UpdateAsync(model, token);
                 scope.Complete();
 
                 return result;

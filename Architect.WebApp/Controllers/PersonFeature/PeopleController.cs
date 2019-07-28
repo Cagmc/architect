@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.Threading;
 using System.Threading.Tasks;
-
+using Architect.Common.Infrastructure.DataTransfer.Request;
 using Architect.PersonFeature.DataTransfer.Request;
 using Architect.PersonFeature.DataTransfer.Response;
 using Architect.PersonFeature.Services;
@@ -29,9 +29,9 @@ namespace Architect.WebApp.Controllers.PersonFeature
         [HttpGet("{id}")]
         [ProducesResponseType(typeof(PersonViewModel), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> Get([Required]int id, CancellationToken token)
+        public async Task<IActionResult> Get([Required]GetRequest request, CancellationToken token)
         {
-            var result = await service.GetAsync(id, token);
+            var result = await service.GetAsync(request, token);
 
             return GenerateResponse(result);
         }

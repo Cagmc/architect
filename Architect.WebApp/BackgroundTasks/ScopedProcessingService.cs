@@ -2,7 +2,6 @@
 using System.Threading.Tasks;
 
 using Architect.Database;
-using Architect.Database.Entities;
 
 using Microsoft.Extensions.Logging;
 
@@ -19,7 +18,9 @@ namespace Architect.WebApp.BackgroundTasks
             this.logger = logger;
         }
 
+#pragma warning disable
         public async Task DoWorkAsync(CancellationToken token)
+#pragma warning enable
         {
             try
             {
