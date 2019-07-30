@@ -48,7 +48,7 @@ namespace Architect.Common.Infrastructure
         protected virtual TResult CreateInstance<TResult>(Type type)
             where TResult : class
         {
-            var constructor = type.GetConstructors()[0];
+            var constructor = type.GetConstructors().FirstOrDefault(); // why take the first?
 
             if (constructor != null)
             {
@@ -57,8 +57,7 @@ namespace Architect.Common.Infrastructure
                     .Select(o => o.ParameterType)
                     .Select(o => provider.GetService(o))
                     .ToArray();
-
-                return Activator.CreateInstance(type, args) as TResult;
+                return constructor.Invoke(args) as TResult;
             }
 
             return null;

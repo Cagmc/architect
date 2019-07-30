@@ -15,5 +15,18 @@ namespace System
 
             return types;
         }
+
+        /// <summary>
+        /// Gets instances of every concrete type which derives from the given
+        /// type parameter and has a parameterless constructor.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
+        public static IEnumerable<T> GetInstances<T>()
+            => typeof(T)
+            .GetConcreteTypes()
+            .Select(p => p.GetConstructor(Type.EmptyTypes))
+            .Where(x => x != null)
+            .Select(x => (T)x.Invoke(Array.Empty<object>()));
     }
 }

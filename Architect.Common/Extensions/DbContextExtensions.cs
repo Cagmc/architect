@@ -10,11 +10,8 @@ namespace Microsoft.EntityFrameworkCore
     {
         public static DbContext CreateViews(this DbContext context)
         {
-            var types = typeof(ISqlViewApplier).GetConcreteTypes();
-
-            foreach (var item in types)
+            foreach (var instance in TypeExtensions.GetInstances<ISqlViewApplier>())
             {
-                var instance = (ISqlViewApplier)Activator.CreateInstance(item);
                 instance.Apply(context);
             }
 
@@ -23,11 +20,8 @@ namespace Microsoft.EntityFrameworkCore
 
         public static async Task<DbContext> CreateViewsAsync(this DbContext context, CancellationToken token = default)
         {
-            var types = typeof(ISqlViewApplier).GetConcreteTypes();
-
-            foreach (var item in types)
+            foreach (var instance in TypeExtensions.GetInstances<ISqlViewApplier>())
             {
-                var instance = (ISqlViewApplier)Activator.CreateInstance(item);
                 await instance.ApplyAsync(context, token).ConfigureAwaitFalse();
             }
 
